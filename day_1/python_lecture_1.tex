@@ -13,6 +13,77 @@
 \usepackage{helvet}
 \usepackage[]{graphicx}
 \usepackage{array}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{lightgray}{rgb}{0.92,0.92,0.92}
+\usepackage{listings} % to insert code
+\usepackage{textpos} % textblock
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
+% Listing set up
+% bash
+\lstdefinestyle{bash}{
+language=bash,                     % the language of the code
+basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
+numbers=none,%left,                   % where to put the line-numbers
+numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                          % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{lightgray},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,%single,                   % adds a frame around the code
+rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                          % also try caption instead of title
+keywordstyle=\color{blue},      % keyword style
+commentstyle=\color{dkgreen},   % comment style
+stringstyle=\color{mauve},      % string literal style
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={}            % if you want to add more keywords to the set
+}
+
+% Python
+\lstdefinestyle{python}{
+language=python,
+formfeed=\newpage,
+basicstyle=\scriptsize\ttfamily,
+commentstyle=\color{deepgreen},%\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{lightgray},%\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=lines,
+tabsize=4,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside={},
+keywordstyle=\color{deepblue},
+emphstyle=\color{deepred},
+stringstyle=\color{deepgreen}
+%morekeywords={models, lambda, forms}
+}
+
+
+\graphicspath{ {../img/} }
+
 \begin{document}
 \title{Python for Scientific Research}   
 \author{Bram Kuijper} 
@@ -66,8 +137,8 @@
 \begin{itemize}
     \item A scripted, high-level programming language created by Guido Van Rossum and named after Monty Python's flying circus
 \begin{center}
-    \includegraphics[width = 20mm]{img/GuidoVanRossumSmall.jpg}
-    \includegraphics[width = 20mm]{img/MontyPython.jpg}
+    \includegraphics[width = 20mm]{GuidoVanRossumSmall.jpg}
+    \includegraphics[width = 20mm]{MontyPython.jpg}
 \end{center}
     \pause
     \item easy-to-use, highly standardized and with an emphasis on readability of code
@@ -77,7 +148,7 @@
 
 \frame{\frametitle{Why use Python?}
 The TIOBE index is a measure of the popularity of programming languages:
-    \includegraphics[width = 10cm]{img/TiobeIndex.png}
+    \includegraphics[width = 10cm]{TiobeIndex.png}
 }
 
 
@@ -95,30 +166,61 @@ The TIOBE index is a measure of the popularity of programming languages:
 \end{tabular}
 }
 
+\begin{frame}{Why do \textit{you} want to learn Python?}
+    Some reasons:
+    \pause
+    \begin{itemize}
+        \item As Python is simple, yet widely used, best programming language for starters
+            \pause
+        \item Easy to automate boring tasks (collecting data from multiple files, manipulating images, mining text data, etc)
+            \pause
+        \item Python and R are rapidly overtaking Perl as the main programming languages in Bioinformatics
+            \pause
+        \item Major GIS applications (e.g.,, ArcGIS) use Python as the main scripting language
+            \pause
+        \item Python is (far) easier to debug than R or C
+    \end{itemize}
+\end{frame}
 
-\frame{\frametitle{Tables with pause}
-\begin{tabular}{c c c}
-A & B & C \\ 
-\pause 
-1 & 2 & 3 \\  
-\pause 
-A & B & C \\ 
-\end{tabular} }
-
-\frame{\frametitle{blocs}
-
-\begin{block}{title of the bloc}
-bloc text
-\end{block}
-
-\begin{exampleblock}{title of the bloc}
-bloc text
-\end{exampleblock}
-
-
-\begin{alertblock}{title of the bloc}
-bloc text
-\end{alertblock}
+\frame{\frametitle{Executing Python code}
+\begin{enumerate}
+    \item Use the Python IDLE interpreter (to test small pieces of code) 
+    \item Executing python scripts written in a text editor (the main way to run Python code)
+\end{enumerate}
 }
+
+
+\frame{\frametitle{Executing Python code I: the IDLE interpreter on Windows}
+In the Windows start menu, go to the Python 3.XX folder and start the IDLE (Integrated Development and Learning Environment):\\
+\begin{center}
+\includegraphics[width=0.3\textwidth]{WindowsStartIDLE.png}
+\end{center}
+}
+
+\frame{\frametitle{Executing Python code I: the IDLE interpreter on Windows}
+\begin{itemize}
+    \item The IDLE interpreter will appear
+    \item Any python code you type in is executed (and printed) once you type enter
+\end{itemize}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{WindowsPythonIDLE.png}
+\end{center}
+}
+
+\frame{\frametitle{Executing Python code I: the IDLE interpreter on Mac}
+\begin{itemize}
+    \item Start a terminal by going to Applications $>$ Utilities $>$ Terminal
+    \item Type \texttt{python3} (not \texttt{python}) to invoke the IDLE
+    \item Any python code you type in is executed (and printed) once you type enter
+\end{itemize}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{MacPythonIDLE.png}
+\end{center}
+}
+
+\frame{\frametitle{Invoking serious python scripts on Windows}
+    
+}
+
 \end{document}
 
