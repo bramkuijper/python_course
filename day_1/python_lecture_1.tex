@@ -17,9 +17,11 @@
 \definecolor{deepgreen}{rgb}{0,0.5,0}
 \definecolor{lightgray}{rgb}{0.92,0.92,0.92}
 \usepackage{listings} % to insert code
+\usepackage{textpos} % textblock
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
-
+% Listing set up
+% bash
 \lstdefinestyle{bash}{
 language=bash,                     % the language of the code
 basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
@@ -75,6 +77,7 @@ stringstyle=\color{deepgreen}
 
 \graphicspath{ {../img/} }
 
+\begin{document}
 \title{Python for Scientific Research}   
 \author{Bram Kuijper}
 \institute[]{University of Exeter, Penryn Campus, UK}
@@ -82,10 +85,16 @@ stringstyle=\color{deepgreen}
 \hfill
 \includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
 
-
-\begin{document}
-
 \frame{\titlepage} 
+\begin{frame}{Acknowledgements}
+\begin{itemize}\addtolength{\itemsep}{\baselineskip}
+	\item The workshop is funded by Exeter's researcher-led initiative award 
+	\item Big thanks to \href{https://emps.exeter.ac.uk/mathematics/staff/jjv207}{JJ Valletta} as most of this lecture material is his.
+\end{itemize}
+\vfill
+\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}
+
+\end{frame}
 
 \frame{
     \frametitle{Course Schedule} 
@@ -173,30 +182,154 @@ The TIOBE index is a measure of the popularity of programming languages:
 \end{tabular}
 }
 
+\begin{frame}{Why do \textit{you} want to learn Python?}
+    Some reasons:
+    \pause
+    \begin{itemize}
+        \item Python has a simple syntax and is widely used; ideal language for beginners
+            \pause
+        \item Development time is much quicker than compiled languages like C or Java
+            \pause
+        \item Broad uptake: Python (and R) are now the main programming languages in Bioinformatics
+            \pause
+        \item Same for spatial applications: key GIS applications (e.g. ArcGIS) use Python as their main scripting language
+        \item Language of choice for machine learning (Tensorflow)
+            \pause
+    \end{itemize}
+\end{frame}
 
-\frame{\frametitle{Tables with pause}
-\begin{tabular}{c c c}
-A & B & C \\ 
-\pause 
-1 & 2 & 3 \\  
-\pause 
-A & B & C \\ 
-\end{tabular} }
-
-\frame{\frametitle{blocs}
-
-\begin{block}{title of the bloc}
-bloc text
-\end{block}
-
-\begin{exampleblock}{title of the bloc}
-bloc text
-\end{exampleblock}
-
-
-\begin{alertblock}{title of the bloc}
-bloc text
-\end{alertblock}
+\frame{\frametitle{Python version 2 vs 3}
+    \begin{itemize}
+        \item Many systems (e.g., Mac OS X) still use Python 2 as the default
+        \item Python 3 differs in \href{https://sebastianraschka.com/Articles/2014\_python\_2\_3\_key\_diff.html}{various ways} from Python 2
+        \item Often, Python 3 code cannot be run using a Python 2 interpreter and vice versa
+        \item Python 2 is a legacy version and will ultimately be replaced by Python 3
+        \item \textbf{Current course will focus on Python 3}
+    \end{itemize}
 }
+
+
+\frame{\frametitle{Different Python distributions}
+Various distributions of Python available:
+    \begin{itemize}
+            \pause
+        \item Official version from \href{https://python.org}{python.org} 
+            \begin{itemize}
+            \item Caveat: libraries and other tools need to be installed separately
+        \end{itemize}
+            \pause
+        \item \href{https://www.enthought.com/product/canopy/}{Enthought Canopy}: Python, libraries \& tools in single installer
+            \pause
+        \item \href{https://www.anaconda.com/distribution/}{Anaconda}: Python, libraries \& tools in single installer: \textbf{used in this course}
+            \begin{center}
+\includegraphics[width=0.3\textwidth]{AnacondaLogo.png}
+            \end{center}
+            \pause
+    \end{itemize}
+}
+
+\frame{\frametitle{Testing small bits of Python code using the IDLE}
+IDLE: Integrated Development and Learning Environment
+\begin{itemize}
+\pause
+    \item Windows: Start Menu $>$ Anaconda3 $>$ Anaconda Prompt 
+\begin{center}
+\includegraphics[width=0.3\textwidth]{WindowsStartIDLE.png}
+\end{center}
+\end{itemize}
+}
+
+\frame{\frametitle{Testing small bits of Python code using the IDLE}
+\begin{itemize}
+    \item In the command-line prompt that appears, type \texttt{python}:
+        \pause
+    \item You can type Python commands after the \texttt{>>>} mark:
+\begin{center}
+\includegraphics[width=0.75\textwidth]{WindowsAnacondaPrompt.png}
+\end{center}
+    \item For example, type \texttt{print('Any text you like')}
+\end{itemize}
+}
+
+\frame{\frametitle{The IDLE interpreter on a Mac}
+\begin{itemize}
+    \item In Finder, go to Applications $>$ Utilities $>$ Terminal
+        \pause
+    \item Type \texttt{python3} (not \texttt{python}!) to invoke the IDLE
+\end{itemize}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{MacPythonIDLE.png}
+\end{center}
+}
+
+\frame{\frametitle{IDLE: finding out how things work}
+\begin{itemize}
+    \item The IDLE prints the value of anything you type back to you
+        \pause
+    \item This makes the IDLE a great tool to test how commands work
+        \pause
+    \item Not useful for code that spans multiple lines
+\end{itemize}
+}
+
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Executing Python code: IPython interpreter}
+\begin{itemize}
+	\item IPython is an interactive shell (similar to R Console), adding ``frills" to the vanilla IDLE interpreter, such as:
+
+	\begin{itemize}
+		\item syntax highlighting (making it easier to read code)
+		\item tab auto-completion (minimises typeos and lists available functions)  
+	\end{itemize}
+	%\item The IPyton interactive shell is what powers Jupyter in the background (i.e code that I write in these notes is interpreted and executed by the IPython shell)
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{ipython.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Executing Python code: Spyder IDE}
+    \begin{itemize}
+        \item Windows: Start Menu $>$ Anaconda3 $>$ Spyder
+            \pause
+        \item Mac: Applications $>$ Spyder
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Executing Python code: Spyder IDE}
+\begin{itemize}\addtolength{\itemsep}{.7\baselineskip}
+	\item Spyder is an integrated development environment (IDE) for scientific computing, akin to \href{https://www.rstudio.com/}{RStudio} and \href{https://uk.mathworks.com/products/matlab.html}{MATLAB} 
+	\item One place to write, execute and debug code, and explore variables
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{spyder_annotated.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Running standalone Python scripts without the IDE}
+\begin{itemize}
+    \item Windows: don't bother, use the Spyder IDE
+        \pause
+    \item Mac/Linux: 
+        \begin{itemize}
+            \item Write your code in text file, say \texttt{my\_script.py}
+                \pause
+            \item In a terminal, run:
+\begin{lstlisting}[style=bash]
+python3 my_script.py
+\end{lstlisting}
+        \end{itemize}
+\end{itemize}
+
+\end{frame}
+
 \end{document}
 

@@ -1,0 +1,326 @@
+%=============================================================================%
+% Author: 	John Joseph Valletta, Bram Kuijper
+% Date: 	14/03/2017, 04/03/2019
+% Title: 	Python workshop: Data types
+%=============================================================================%
+
+%=============================================================================%
+% Preamble
+%=============================================================================%
+% Libraries
+
+\documentclass[xcolor=table]{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage{helvet}
+\usepackage[]{graphicx}
+\usepackage{array}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{lightgray}{rgb}{0.92,0.92,0.92}
+\usepackage{listings} % to insert code
+\usepackage{textpos} % textblock
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
+% Listing set up
+% bash
+\lstdefinestyle{bash}{
+language=bash,                     % the language of the code
+basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
+numbers=none,%left,                   % where to put the line-numbers
+numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                          % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{lightgray},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,%single,                   % adds a frame around the code
+rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                          % also try caption instead of title
+keywordstyle=\color{blue},      % keyword style
+commentstyle=\color{dkgreen},   % comment style
+stringstyle=\color{mauve},      % string literal style
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={}            % if you want to add more keywords to the set
+}
+
+% Python
+\lstdefinestyle{python}{
+language=python,
+formfeed=\newpage,
+basicstyle=\scriptsize\ttfamily,
+commentstyle=\color{deepgreen},%\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{lightgray},%\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=lines,
+tabsize=4,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside=||,
+keywordstyle=\color{deepblue},
+emphstyle=\color{deepred},
+stringstyle=\color{deepgreen}
+%morekeywords={models, lambda, forms}
+}
+
+\graphicspath{ {../img/} }
+\title[Python for scientific research]{Python for scientific research}
+\subtitle{Built-in data types}
+\author{Bram Kuijper}
+\institute[]{University of Exeter, Penryn Campus, UK}
+\titlegraphic{
+\hfill
+\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
+%=============================================================================%
+%=============================================================================%
+% Start of Document
+%=============================================================================%
+%=============================================================================%
+\begin{document}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}
+\titlepage
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}{Declaring variables}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+	\item<1-> Variables that contain data (numbers, characters etc.) are the fundamental building blocks of any language
+    \item<2-> Variables in Python are dynamically typed (see later)
+	\item<3-> You can name your variables pretty much anything you want but:\\
+	\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+		\item<4-> Be \textbf{consistent} in your naming convention (see \href{https://www.python.org/dev/peps/pep-0008/}{PEP 8})
+		\item<5-> Python is \textbf{case sensitive}; \texttt{genename} and \texttt{geneName} are different variables
+        \item<6-> First character cannot contain a digit: $\texttt{1genename}$ raises an error
+		\item<7-> You cannot use Python \textbf{reserved words/keywords}
+		\item<8-> If you're an R user, \textbf{DO NOT} use `.' in your variable names i.e \texttt{gene.name} is not a valid variable name 
+	\end{itemize} 
+\end{itemize}
+
+\end{frame}
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Core data types}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+
+\item<1-> \textbf{Integers: \texttt{int}}\\
+\begin{lstlisting}[style=python]
+NGenes = 1500 # number of genes measured
+type(NGenes) # int
+\end{lstlisting}
+	
+\item<2-> \textbf{Floating point: \texttt{float}, any real numbers}
+\begin{lstlisting}[style=python]
+Km = 0.015 # Michaelis constant for chymotrypsin
+type(Km) # float
+\end{lstlisting}
+	
+\item<3-> \textbf{Complex numbers: \texttt{complex}}
+\begin{lstlisting}[style=python]
+cnumber = 10 + 2j # 10=real part; 2=complex part
+type(cnumber) # complex
+\end{lstlisting}
+
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+    \frametitle{Core data types (continued)}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+
+\item<1-> \textbf{Boolean: \texttt{bool} } true or false values for logical statements
+\begin{lstlisting}[style=python]
+isTransFactor = True # is protein a transcription factor?
+type(isTransFactor) # bool
+\end{lstlisting}
+
+\item<2-> \textbf{Nothing: \texttt{NoneType} } when a variable is empty
+\begin{lstlisting}[style=python]
+yetToBeUsed = None
+type(yetToBeUsed) #NoneType
+\end{lstlisting}
+
+\item<3-> \textbf{Strings: \texttt{str}} for any text
+\begin{lstlisting}[style=python]
+motif = "AATCAGTT" # DNA sequence motif
+type(motif) # str
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Dynamic typing}
+\begin{itemize}
+    \item The type of a variable changes dependent on its value:
+\begin{lstlisting}[style=python]
+sequence = "AATCAGTT" # DNA sequence 
+type(sequence) # str | \pause |
+
+sequence = 123456 # a numerical sequence
+type(sequence) # int
+\end{lstlisting}
+\pause
+    \item This is also called duck typing \emph{``If it walks like a duck and it quacks like a duck, then it must be a duck''}
+        \begin{itemize}
+            \item Always a way to find out what variable type we are dealing with, by using the $\texttt{type()}$ function or through other clues
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Container data types}
+
+\begin{itemize}\addtolength{\itemsep}{-0.5\baselineskip}
+\item<1-> \textbf{Lists: \texttt{list}} for a collection of variables
+\begin{lstlisting}[style=python]
+# Interesting genes
+geneNames = ["Irf1", "Ccl3", "Il12rb1", "Ifng", "Cxcl10"]
+type(geneNames) # list
+| \pause |
+# Get elements of list
+geneNames[0] # "Irf1"
+geneNames[-1] # "Cxc110"
+\end{lstlisting}
+
+\item<3-> \textbf{Tuples: \texttt{tuple}} for an \emph{immutable} collection of values
+\begin{lstlisting}[style=python]
+# Interesting genes
+geneNames = ("Irf1", "Ccl3", "Il12rb1", "Ifng", "Cxcl10")
+type(geneNames) # tuple
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Container data types (continued)}
+\begin{itemize}\addtolength{\itemsep}{-0.5\baselineskip}
+\item<4-> \textbf{Dictionary: \texttt{dict}} for a collection of values and unique labels 
+\begin{lstlisting}[style=python]
+# A phone book
+phoneBook = {"Bram": "01326 - 259022", "Annette": "01326 - 371842", "Angus": "01326 - 255794"}
+type(phoneBook) # dict
+\end{lstlisting}
+
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+    \frametitle{Container data types (continued)}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+
+\item<1-> \textbf{Sets: \texttt{set, frozenset}} for a collection of unique values
+\begin{lstlisting}[style=python]
+# Sets are mutable collections of unique values
+languages = set(["Python", "R", "MATLAB", "C"])
+type(languages) # set | \pause |
+
+# Frozensets are immutable collections of unique values
+languages = frozenset(["Python", "R", "MATLAB", "C"])
+type(languages) # frozenset
+\end{lstlisting}
+
+\item<3-> \textbf{Range: \texttt{range}} for sequences of integers
+\begin{lstlisting}[style=python]
+# Create immutable sequence of numbers from 0 to 4
+x = range(5)
+type(x) # range
+\end{lstlisting}
+
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Mutable vs immutable objects}
+
+\begin{itemize}
+\item<1-> \textbf{Mutable} objects (\texttt{list, dict, set}) can be changed once assigned
+\begin{lstlisting}[style=python]
+# Lists are mutable
+geneList = ["Irf1", "Ccl3", "Il12rb1"]
+geneList[0]="Irf2" # change first gene to Irf2
+\end{lstlisting}  
+
+\item<2-> \textbf{Immutable} objects \textit{cannot} be changed once assigned 
+\begin{lstlisting}[style=python]
+geneTuple = ("Irf1", "Ccl3", "Il12rb1") # immutable
+geneTuple[0]="Irf2"
+TypeError: 'tuple' object does not support item assignment
+\end{lstlisting}  
+
+\item<3-> However you can replace an \textbf{immutable} object with a new one 
+\begin{lstlisting}[style=python]
+geneTuple = ("Irf1", "Ccl3", "Il12rb1")
+# Replace with a new object
+geneTuple = ("Irf2", "Ccl3", "Il12rb1")
+\end{lstlisting} 
+
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Methods of objects}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+	\item A Python variable is called an \textbf{object}
+	\item Every object has \textbf{methods} (functions) associated with it
+	\item These methods are called using the dot notation (\texttt{`.'})
+\end{itemize}
+\begin{lstlisting}[style=python]
+# DNA sequence motif
+motif = "AATCAGTT"
+
+# Use the count method to count occurrence of nucleotide "T" 
+motif.count("T") # 3
+
+# Use the lower method to convert to lower case
+motif.lower() # "aatcagtt"
+\end{lstlisting} 
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+% End of Document
+%=============================================================================%
+%=============================================================================%
+\end{document}
