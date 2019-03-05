@@ -1,0 +1,299 @@
+%=============================================================================%
+% Author: 	John Joseph Valletta, Bram Kuijper
+% Date: 	14/03/2017, 04/03/2019
+% Title: 	Python workshop: flow control
+%=============================================================================%
+
+%=============================================================================%
+% Preamble
+%=============================================================================%
+% Libraries
+
+\documentclass[xcolor=table]{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage{helvet}
+\usepackage[]{graphicx}
+\usepackage{array}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{lightgray}{rgb}{0.92,0.92,0.92}
+\usepackage{listings} % to insert code
+\usepackage{textpos} % textblock
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
+% Listing set up
+% bash
+\lstdefinestyle{bash}{
+language=bash,                     % the language of the code
+basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
+numbers=none,%left,                   % where to put the line-numbers
+numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                          % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{lightgray},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,%single,                   % adds a frame around the code
+rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                          % also try caption instead of title
+keywordstyle=\color{blue},      % keyword style
+commentstyle=\color{dkgreen},   % comment style
+stringstyle=\color{mauve},      % string literal style
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={}            % if you want to add more keywords to the set
+}
+
+% Python
+\lstdefinestyle{python}{
+language=python,
+formfeed=\newpage,
+basicstyle=\scriptsize\ttfamily,
+commentstyle=\color{deepgreen},%\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{lightgray},%\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=lines,
+tabsize=4,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside=||,
+keywordstyle=\color{deepblue},
+emphstyle=\color{deepred},
+stringstyle=\color{deepgreen}
+%morekeywords={models, lambda, forms}
+}
+
+\graphicspath{ {../img/} }
+\title[Python for scientific research]{Python for scientific research}
+\subtitle{Built-in data types}
+\author{Bram Kuijper}
+\institute[]{University of Exeter, Penryn Campus, UK}
+\titlegraphic{
+\hfill
+\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
+%=============================================================================%
+%=============================================================================%
+% Start of Document
+%=============================================================================%
+%=============================================================================%
+\begin{document}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}
+\titlepage
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}{What we've done so far}
+
+	\begin{enumerate}\addtolength{\itemsep}{1\baselineskip}
+		\item Declare variables using built-in data types and execute operations
+		on them
+		\item \textbf{Next}: Controlling the flow of a program
+	\end{enumerate}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}{Motivation}
+
+\begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+	\item<1-> Executing code one line at a time is useful but limiting
+	\item<2-> \textbf{Flow control} commands lets us dictate the \textbf{order}
+	in which commands are run: 
+	\begin{enumerate}\addtolength{\itemsep}{1\baselineskip}
+		\item<3-> \textbf{If-else}: to change what commands are executed
+		under certain conditions
+		\item<4-> \textbf{For loops}: to repeat the same thing $N$ times
+		\item<5-> \textbf{While loops}: to repeat the same thing until a specific condition is met
+	\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{If-else}
+
+\begin{itemize}
+	\item Print whether the integer $x$ is positive, negative or zero
+
+\begin{lstlisting}[style=python]
+if x > 0:
+    print("x is positive")
+elif x < 0:
+    print("x is negative")
+else:
+    print("x is zero")
+\end{lstlisting}
+
+    \item Note the lack of \{ \} used in many other languages (R, C/C++); in Python \textbf{indentation} is everything!
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{For loops}
+
+\begin{itemize}
+
+\item<1-> Print the integers 1 to 5
+\begin{lstlisting}[style=python]
+for x in range(5):
+    print(x+1)
+\end{lstlisting}
+
+\item<2-> Loop through a list of gene names and print them in upper case
+\begin{lstlisting}[style=python]
+geneNames = ["Irf1", "Ccl3", "Il12rb1", "Ifng", "Cxcl10"]
+for gene in geneNames:
+    print(gene.upper())
+\end{lstlisting}
+
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{While loops}
+
+\begin{itemize}
+
+\item Print the integers 10 to 1
+\begin{lstlisting}[style=python]
+x = 10
+while x > 0:
+    print(x)
+    x = x - 1
+\end{lstlisting}
+
+\item \textbf{Note}: 
+\begin{enumerate}\addtolength{\itemsep}{0.5\baselineskip}
+\item Use \texttt{for loops} over \texttt{while loops} where possible
+\item Ensure that the \texttt{while} condition evaluates to 
+\texttt{False} at some point to avoid an infinite loop
+\end{enumerate}
+
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{List Comprehensions}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+
+\item<1-> List comprehensions are an optimized and readible method for creating a list
+
+\item<2-> Recall the previous example where we looped over gene names and printed them in upper
+case
+\begin{lstlisting}[style=python]
+geneNames = ["Irf1", "Ccl3", "Il12rb1", "Ifng", "Cxcl10"]
+for gene in geneNames:
+    print(gene.upper())
+\end{lstlisting}
+
+\item<3-> What if I want to store the upper case gene names in another variable, 
+called \texttt{x} for simplicity?
+
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{List Comprehensions}
+
+\begin{enumerate}
+\item<1-> Using for loops:
+\begin{lstlisting}[style=python]
+x = [] # create an empty list to append to
+for gene in geneNames:
+    x.append(gene.upper())
+\end{lstlisting}
+
+\item<2-> Using list comprehension:
+\begin{lstlisting}[style=python]
+x = [gene.upper() for gene in geneNames]
+\end{lstlisting}
+
+\item<3-> What if I want to ignore gene \texttt{Ifng}?
+\begin{lstlisting}[style=python]
+x = [gene.upper() for gene in geneNames if gene != "Ifng"]
+\end{lstlisting}
+
+\end{enumerate}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Enumerate}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+\item<1-> When looping over lists, sometimes it's useful to keep track of the
+index of the iteration
+
+\item<2-> \textbf{Enumerate} is a built-in function that lets us access the
+iterable element but also its index
+
+\item<3-> Print the index next to upper cased gene name
+
+\begin{enumerate}\addtolength{\itemsep}{-1\baselineskip}
+
+\item<3-> Using a standard for loop:
+\begin{lstlisting}[style=python]
+i = 0 # index counter
+for gene in geneNames:
+    print("{0}. {1}\n".format(i+1, gene.upper()))
+    i = i + 1
+\end{lstlisting}
+
+\item<4-> Using \texttt{enumerate}:
+\begin{lstlisting}[style=python]
+for i, gene in enumerate(geneNames):
+    print("{0}. {1}\n".format(i+1, gene.upper()))
+\end{lstlisting}
+
+\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+% End of Document
+%=============================================================================%
+%=============================================================================%
+\end{document}
