@@ -89,7 +89,8 @@ stringstyle=\color{deepgreen}
 \begin{frame}{Acknowledgements}
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
 	\item The workshop is funded by Exeter's researcher-led initiative award 
-	\item Big thanks to \href{https://emps.exeter.ac.uk/mathematics/staff/jjv207}{JJ Valletta} as most of this lecture material is his.
+	\item Big thanks to \href{https://emps.exeter.ac.uk/mathematics/staff/jjv207}{JJ Valletta} as he has developed these lectures 
+    \item Big thanks to \href{http://emps.exeter.ac.uk/mathematics/staff/dp457}{Deepak Kumar Panda} and JJ for helping out today
 \end{itemize}
 \vfill
 \includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}
@@ -103,16 +104,17 @@ stringstyle=\color{deepgreen}
             \begin{itemize}
                 \item how to run Python code
                 \item data types
-                \item variable scope
                 \item flow control
-                \item text manipulation
+                \item functions and modules
+                \item number crunching with \texttt{numpy} and \texttt{scipy}
             \end{itemize}
             \pause
         \item March 20th: Applying Python to simplify your life
             \begin{itemize}
-                \item functions
+                \item number crunching with \texttt{numpy} and \texttt{scipy}
+                \item text manipulation
                 \item working with files
-                \item working with data using \texttt{pandas} and \texttt{scipy}
+                \item working with data using \texttt{pandas}
                 \item making graphs using \texttt{matplotlib}
             \end{itemize}
             \pause
@@ -129,11 +131,13 @@ stringstyle=\color{deepgreen}
 \frame{
     \frametitle{Today's schedule} 
     \begin{itemize}
-        \item 1300 - 1400: How to run Python \& Data types
-        \item 1400 - 1420: Break
-        \item 1420 - 1520: Variable scope \& Flow control
-        \item 1520 - 1540: Break
-        \item 1540 - 1640: Functions, working with files 
+        \item 1300 - 1400: How to run Python
+        \item 1400 - 1415: Break
+        \item 1415 - 1500: Data types \& flow control
+        \item 1500 - 1515: Break
+        \item 1515 - 1600: Functions \& modules
+        \item 1600 - 1615: Break
+        \item 1615 - 1700: Numpy \& scipy (if we get to it)
     \end{itemize}
 }
 
@@ -161,7 +165,7 @@ The TIOBE index is a measure of the popularity of programming languages:
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
 	\item<1-> It is free! No licence costs
 	\item<2-> Runs on all platforms (Mac, Windows, Linux)
-	\item<3-> Because of it's ease of programming (e.g no neeed to worry about memory allocation), Python minimises development effort
+	\item<3-> Because of it's ease of programming (e.g no need to worry about memory allocation), Python minimises development effort
 	\item<4-> A huge number of \href{https://pypi.python.org/pypi}{libraries}, written by an active \href{https://www.python.org/community/}{community}  
 	\item<5-> Python can ``glue" together functions written in C/C++ and Fortran to speed things up (we can also call R and MATLAB functions)
 	\item<6-> Compared to other high-level scientific languages such as MATLAB and R, Python offers a much wider range of additional functionality (e.g \href{https://www.djangoproject.com/}{web} and \href{https://wiki.python.org/moin/TkInter}{GUI} development) %hence the nickname ``the swiss army knife" of programming languages. 
@@ -169,18 +173,24 @@ The TIOBE index is a measure of the popularity of programming languages:
 
 \end{frame}
 
-\frame{\frametitle{Python compared to other languages}
-\rowcolors{1}{}{lightgray}
-\begin{tabular}{c c c c c}
-    & Python & C/C++ & Java & R 
-\pause 
-    \\ 
-    Speed & Slow & Fast & OK & Very Slow \pause \\  
-    Easy to code? & Very easy & Hard & Hard/OK & OK \pause \\  
-    Easy to port? & Very easy & Hard & Very easy & Easy \pause \\  
-    Documentation & Excellent & Very poor & Poor & Poor \pause \\  
-\end{tabular}
-}
+%=============================================================================%
+%=============================================================================%
+\begin{frame}{Horses for courses}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+	\item<1-> Python is becoming the de facto standard for exploratory and interactive scientific research\\
+	\item[]<1-> \textbf{BUT}
+	\item<2-> Python is no programming silver bullet
+	\item<3-> Your application will ultimately dictate the tool (and a mixture of more than one language \textbf{is} ok). For example:\\
+	\begin{itemize}\addtolength{\itemsep}{0.8\baselineskip}
+		\item<4-> MATLAB excels at interfacing with hardware, e.g generating \href{https://uk.mathworks.com/products/hdl-coder.html}{hardware description language (HDL) code} to configure an integrated circuit board or connecting to a \href{https://uk.mathworks.com/products/daq.html}{data acquisition card}
+		\item<5-> R is great for data wrangling and visualisation, and statistical modelling
+        \item<6-> C achieves the fastest runtimes (no wonder why Windows, Mac OS X, Linux have been coded in C (or flavors thereof)), but coding simple things more difficult
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
 
 \begin{frame}{Why do \textit{you} want to learn Python?}
     Some reasons:
@@ -188,12 +198,12 @@ The TIOBE index is a measure of the popularity of programming languages:
     \begin{itemize}
         \item Python has a simple syntax and is widely used; ideal language for beginners
             \pause
-        \item Development time is much quicker than compiled languages like C or Java
+        \item Development time is much quicker than for compiled languages like C or Java
             \pause
-        \item Broad uptake: Python (and R) are now the main programming languages in Bioinformatics
+        \item Broad uptake: Python (and R) have replaced Perl as the key programming language in Bioinformatics
             \pause
-        \item Same for spatial applications: key GIS applications (e.g. ArcGIS) use Python as their main scripting language
-        \item Language of choice for machine learning (Tensorflow)
+        \item Same for spatial applications: major GIS applications like ArcGIS use Python as their main scripting language
+        \item Language of choice for machine learning (Tensorflow) 
             \pause
     \end{itemize}
 \end{frame}
@@ -215,7 +225,7 @@ Various distributions of Python available:
             \pause
         \item Official version from \href{https://python.org}{python.org} 
             \begin{itemize}
-            \item Caveat: libraries and other tools need to be installed separately
+                \item Caveat: libraries and other tools need to be installed separately via \texttt{pip}
         \end{itemize}
             \pause
         \item \href{https://www.enthought.com/product/canopy/}{Enthought Canopy}: Python, libraries \& tools in single installer
@@ -247,7 +257,7 @@ IDLE: Integrated Development and Learning Environment
 \begin{center}
 \includegraphics[width=0.75\textwidth]{WindowsAnacondaPrompt.png}
 \end{center}
-    \item For example, type \texttt{print('Any text you like')}
+    \item For example, type \texttt{print("Any text you like")}
 \end{itemize}
 }
 
@@ -256,10 +266,11 @@ IDLE: Integrated Development and Learning Environment
     \item In Finder, go to Applications $>$ Utilities $>$ Terminal
         \pause
     \item Type \texttt{python3} (not \texttt{python}!) to invoke the IDLE
-\end{itemize}
 \begin{center}
 \includegraphics[width=0.5\textwidth]{MacPythonIDLE.png}
 \end{center}
+    \item IDLE on Linux: open a terminal and type \texttt{python3}
+\end{itemize}
 }
 
 \frame{\frametitle{IDLE: finding out how things work}

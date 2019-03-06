@@ -1,0 +1,142 @@
+%=============================================================================%
+% Author: 	John Joseph Valletta, Bram Kuijper
+% Date: 	14/03/2017, 04/03/2019
+% Title: 	Python workshop: functions, modules
+%=============================================================================%
+
+%=============================================================================%
+% Preamble
+%=============================================================================%
+% Libraries
+
+\documentclass[xcolor=table]{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage{helvet}
+\usepackage[]{graphicx}
+\usepackage{array}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{lightgray}{rgb}{0.92,0.92,0.92}
+\usepackage{listings} % to insert code
+\usepackage{textpos} % textblock
+\usepackage{dirtree} % textblock
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
+% Listing set up
+% bash
+\lstdefinestyle{bash}{
+language=bash,                     % the language of the code
+basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
+numbers=none,%left,                   % where to put the line-numbers
+numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                          % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{lightgray},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,%single,                   % adds a frame around the code
+rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                          % also try caption instead of title
+keywordstyle=\color{blue},      % keyword style
+commentstyle=\color{dkgreen},   % comment style
+stringstyle=\color{mauve},      % string literal style
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={}            % if you want to add more keywords to the set
+}
+
+% Python
+\lstdefinestyle{python}{
+language=python,
+formfeed=\newpage,
+basicstyle=\scriptsize\ttfamily,
+commentstyle=\color{deepgreen},%\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{lightgray},%\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=lines,
+tabsize=4,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside=||,
+keywordstyle=\color{deepblue},
+emphstyle=\color{deepred},
+stringstyle=\color{deepgreen}
+%morekeywords={models, lambda, forms}
+}
+
+\graphicspath{ {../img/} }
+\title[Python for scientific research]{Python for scientific research}
+\subtitle{Files}
+\author{Bram Kuijper}
+\institute[]{University of Exeter, Penryn Campus, UK}
+\titlegraphic{
+\hfill
+\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
+%=============================================================================%
+%=============================================================================%
+% Start of Document
+%=============================================================================%
+%=============================================================================%
+\begin{document}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}
+\titlepage
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}{What we've done so far}
+
+	\begin{enumerate}\addtolength{\itemsep}{1\baselineskip}
+		\item Declare variables using built-in data types and execute operations
+		on them
+		\item Use flow control commands to dictate the order in which commands are run
+		and when
+		\item Encapsulate programs into reusable functions, modules and packages
+        \item \textbf{Next} Use python to work with files and filesystem
+	\end{enumerate}
+
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{}
+\dirtree{%
+.1 C:\
+.2 Users\
+.3 bram\
+.4 Documents\
+.5 project.docx
+.5 supplement.docx
+.5 data.csv
+}
+
+
+%=============================================================================%
+%=============================================================================%
+% End of Document
+%=============================================================================%
+%=============================================================================%
+\end{document}
