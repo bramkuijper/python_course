@@ -1,4 +1,4 @@
-all: 00_introduction.pdf 01_variables.pdf 02_flow_control.pdf
+all: 00_introduction.pdf 01_variables.pdf 02_flow_control.pdf 03_functions_modules.pdf
 
 00_introduction.pdf: 00_introduction.tex
 	latexmk -pdf 00_introduction.tex
@@ -8,6 +8,9 @@ all: 00_introduction.pdf 01_variables.pdf 02_flow_control.pdf
 
 02_flow_control.pdf: 02_flow_control.tex
 	latexmk -pdf 02_flow_control.tex
+
+03_functions_modules.pdf: 03_functions_modules.tex
+	latexmk -pdf 03_functions_modules.tex
 
 .PHONY: clean
 
