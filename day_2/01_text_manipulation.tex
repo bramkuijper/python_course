@@ -11,6 +11,7 @@
 
 \documentclass[xcolor=table]{beamer}
 \usepackage{beamerthemeshadow}
+\usepackage[T1]{fontenc}
 \usepackage{helvet}
 \usepackage[]{graphicx}
 \usepackage{array}
@@ -24,6 +25,7 @@
 \definecolor{lightgray}{rgb}{0.92,0.92,0.92}
 \usepackage{listings} % to insert code
 \usepackage{textpos} % textblock
+\usepackage{textcomp} % textblock
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
 % Listing set up
@@ -70,6 +72,7 @@ showspaces=false,
 showstringspaces=false,
 showtabs=false,
 frame=lines,
+upquote=true,
 tabsize=4,
 captionpos=b,
 breaklines=true,
@@ -78,7 +81,7 @@ title=\lstname,
 escapeinside=||,
 keywordstyle=\color{deepblue},
 emphstyle=\color{deepred},
-stringstyle=\color{deepgreen}
+stringstyle=\color{mauve}
 %morekeywords={models, lambda, forms}
 }
 
@@ -113,11 +116,29 @@ stringstyle=\color{deepgreen}
 		\item Use flow control commands to dictate the order in which commands are run
 		and when
 		\item Encapsulate programs into reusable functions, modules and packages
-        \item \textbf{Next:} pattern matching and text manipulation
+        \item \textbf{Next:} working with textual data and \emph{pattern matching}
 	\end{enumerate}
 
 \end{frame}
-
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+    \frametitle{Basic features of strings}
+    First, some \href{https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str}{basic features} of working with strings of text in Python:
+        \begin{itemize}
+            \item Using quotes within strings:
+\begin{lstlisting}[style=python]
+str1 = "Text with 'embbeded' single quotes" | \pause |
+str2 = 'Text with "embedded" double quotes' | \pause |
+str3 = "Text with \"escaped\" double quotes" 
+\end{lstlisting}
+            \item Multiline 
+\begin{lstlisting}[style=python]
+my_str = "Here, some text" # declare a string
+my_str2 = 'Here, some text' # exactly the same
+\end{lstlisting}
+        \end{itemize}
+\end{frame}
 %=============================================================================%
 %=============================================================================%
 \begin{frame}{Motivation}
@@ -126,14 +147,16 @@ stringstyle=\color{deepgreen}
 	\item<1-> Matching of patterns in text is a common programming task
 	\item<2-> Some examples:
         \begin{itemize}\addtolength{\itemsep}{.25\baselineskip}
-            \item<3-> Mining data for particular words or numbers (twitter feeds, abstracts, etc)
-            \item<4-> Finding similar filenames, e.g., \texttt{data\_d01\_.csv}, \texttt{Data\_x102\_.xls}
-            \item<5-> Converting datapoints from one format to another. E.g., dates \texttt{23.01.1980}, \texttt{230180} to \texttt{23-01-1980}
+            \item<3-> Mining collections of text for occurrences of certain words/numbers (twitter feeds, abstracts, etc)
+            \item<4-> Working with files (matching certain filenames but not others) 
+            \item<5-> Converting data from one format to another (e.g., factor levels, dates)
+            \item<6-> Validation of user input in interactive programs
         \end{itemize}
-    \item<6-> Solution: \textbf{regular expressions}
+    \item<7-> Solution: \textbf{regular expressions}
 \end{itemize}
 
 \end{frame}
+
 
 %=============================================================================%
 %=============================================================================%
