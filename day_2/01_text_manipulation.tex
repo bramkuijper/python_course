@@ -128,7 +128,7 @@ stringstyle=\color{deepgreen}
         \begin{itemize}\addtolength{\itemsep}{.25\baselineskip}
             \item<3-> Mining data for particular words or numbers (twitter feeds, abstracts, etc)
             \item<4-> Finding similar filenames, e.g., \texttt{data\_d01\_.csv}, \texttt{Data\_x102\_.xls}
-            \item<5-> Converting data from one format to another, e.g., \texttt{23.01.1980}, \texttt{230180} to \texttt{23-01-1980}
+            \item<5-> Converting datapoints from one format to another. E.g., dates \texttt{23.01.1980}, \texttt{230180} to \texttt{23-01-1980}
         \end{itemize}
     \item<6-> Solution: \textbf{regular expressions}
 \end{itemize}
@@ -139,76 +139,79 @@ stringstyle=\color{deepgreen}
 %=============================================================================%
 \begin{frame}[fragile]
 \frametitle{Finding patterns of text without regular expressions}
-Imagine one wants to convert various date formats to DDDD-MM-YY
-\texttt{Date1,Date2,Date3\\
-23.01.1980,8.9.1990,15-03-19 
-}
-
-\begin{itemize}
-	\item Convert dates to a genera
-
+    \begin{itemize}
+        \item Imagine one wants to convert various date formats to YYYY-MM-DD
 \begin{lstlisting}[style=python]
-if x > 0:
-    print("x is positive")
-elif x < 0:
-    print("x is negative")
-else:
-    print("x is zero")
+s = "23.01.1980,08.09.1990,15-03-2019"
+
+for i in range(0,len(s)):
+
+    if i + 10 <= len(s):
+        if s[i:i+2].isdigit() and s[i+2] in ".-" and s[i+3:i+5].isdigit() and s[i+5] in ".-" and s[i+6:i+10].isdigit():
+            day = s[i:i+2]
+            month = s[i+3:i+5]
+            year = s[i+6:i+10]
+            print(year + "-" + month + "-" + day)
 \end{lstlisting}
-
-    \item Note the lack of \texttt{\{ \}} used in many other languages (R, C/C++); in Python \textbf{indentation} is everything!
-\end{itemize}
-
+\item Gets complicated quickly 
+\item Breaks down for single digit months/days, e.g., \texttt{8.9.1980}
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
-\frametitle{For loops}
-
-\begin{itemize}
-
-\item<1-> Print the integers 1 to 5
+\frametitle{Finding patterns of text with regular expressions}
 \begin{lstlisting}[style=python]
-for x in range(5):
-    print(x+1)
-\end{lstlisting}
+# load the regular expression module
+import re
 
-\item<2-> Loop through a list of gene names and print them in upper case
+# a string of text with dates (allowing for single digit days and months)
+s = "23.01.1980,8.9.1990,15-03-2019"
+
+# match with a regular expression (given as a r"" [raw literal] string)
+all_dates = re.findall(r"(\d{1,2})[-\.](\d{1,2})[-\.](\d{4})",s)
+
+# print 1980-01-23 etc
+for date in all_dates:
+    print(date[2] + "-" + date[1].zfill(2) + "-" + date[0].zfill(2))
+\end{lstlisting}
+\end{frame}
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{What is a regular expression?}
+    \begin{itemize}
+        \item<1-> A tiny, highly specialized programming language within Python
+        \item<2-> Made available in the \texttt{re} module
+        \item<3-> Specifies the rules to match occurrences of patterns in text
+        \item<4-> Allows you to modify text that matches a pattern (using \texttt{re.sub()})
+        \item<5-> Provide a regular expression pattern as a string of text:
 \begin{lstlisting}[style=python]
-geneNames = ["Irf1", "Ccl3", "Il12rb1", "Ifng", "Cxcl10"]
-for gene in geneNames:
-    print(gene.upper())
+# specify a pattern that matches '3foo' but not 'foo'
+regex_pattern = r"\dfoo"
 \end{lstlisting}
+    \end{itemize}
+\end{frame}
 
-\end{itemize}
-
+\begin{frame}[fragile]
+\frametitle{Regular expressions: patterns}
+    \begin{itemize}
+        \item<1->\texttt{\textbackslash d} matches any character that is a digit
+        \item<2->\texttt{\textbackslash D} matches any character that is not a digit
+        \item<3->\texttt{\textbackslash s} matches any whitespace character (e.g., a space, a tab, a newline)
+        \item<4->\texttt{\textbackslash S} matches any character that is not a whitespace
+        \item<5->\texttt{\textbackslash b} matches a word boundary
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
-\frametitle{While loops}
-
-\begin{itemize}
-
-\item Print the integers 10 to 1
-\begin{lstlisting}[style=python]
-x = 10
-while x > 0:
-    print(x)
-    x = x - 1
-\end{lstlisting}
-
-\item \textbf{Note}: 
-\begin{enumerate}\addtolength{\itemsep}{0.5\baselineskip}
-\item Use \texttt{for loops} over \texttt{while loops} where possible
-\item Ensure that the \texttt{while} condition evaluates to 
-\texttt{False} at some point to avoid an infinite loop
-\end{enumerate}
-
-\end{itemize}
-
+\frametitle{Regular expressions: functions}
+    \begin{itemize}
+        \item<1->\texttt{re.search(pattern, string [,flags])} Searches for \texttt{pattern} in \texttt{string}, return a
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
