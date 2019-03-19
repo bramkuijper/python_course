@@ -67,6 +67,8 @@ numbers=left,
 numberstyle=\tiny\color{gray},
 stepnumber=1,
 numbersep=5pt,
+extendedchars=true,
+inputencoding=utf8x,
 backgroundcolor=\color{lightgray},%\color{white},
 showspaces=false,
 showstringspaces=false,
@@ -81,7 +83,11 @@ title=\lstname,
 escapeinside=||,
 keywordstyle=\color{deepblue},
 emphstyle=\color{deepred},
-stringstyle=\color{mauve}
+stringstyle=\color{mauve},
+literate={ö}{{\"o}}1
+       {ä}{{\"a}}1
+       {ü}{{\"u}}1
+       {ç}{{\c{c}}}1
 %morekeywords={models, lambda, forms}
 }
 
@@ -130,21 +136,75 @@ stringstyle=\color{mauve}
 \begin{lstlisting}[style=python]
 str1 = "Text with 'embbeded' single quotes" | \pause |
 str2 = 'Text with "embedded" double quotes' | \pause |
-str3 = "Text with \"escaped\" double quotes" 
+str3 = "Text with \"escaped\" double quotes" # Text with "escaped" double quotes 
 \end{lstlisting}
-            \item Multiline 
+\pause
+            \item Multiline strings demarcated by triple quotes 
+                \pause
 \begin{lstlisting}[style=python]
-my_str = "Here, some text" # declare a string
-my_str2 = 'Here, some text' # exactly the same
+multiline = """This is a 
+multiline string""" | \pause |
+multiline2 = '''Another
+multiline string'''
 \end{lstlisting}
         \end{itemize}
 \end{frame}
 %=============================================================================%
 %=============================================================================%
-\begin{frame}{Motivation}
+\begin{frame}[fragile]
+    \frametitle{String literals}
+    Different \href{https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals}{string literals} identifying different types of string:
+\begin{itemize}
+    \item By default, any string is \emph{encoded} as \href{https://docs.python.org/3/howto/unicode.html}{UTF-8}, allowing for international characters:
+\begin{lstlisting}[style=python]
+str_normal = "Let's go to the Provençe!" | \pause |
+str_normal = u"Let's go to the Provençe!" # u-prefix, now redundant (Python2) | \pause |
+type(str_normal) # <class 'str'>
+\end{lstlisting}
+\pause
+    \item Byte strings (written as \texttt{b"..."}) only contain \href{https://en.wikipedia.org/wiki/ASCII}{ASCII} characters (no international characters):
+\begin{lstlisting}[style=python]
+str_ascii = b"Let's go to the Provençe!" # Error | \pause |
+str_ascii = b"Let's go to the Provence!" # Works (meh) | \pause |
+type(str_ascii) # <class 'bytes'>
+\end{lstlisting}
+\item \href{https://docs.python.org/3/howto/unicode.html}{UTF-8} and \href{https://en.wikipedia.org/wiki/ASCII}{ASCII} are encodings which specify how characters translate into 0s and 1s
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Example encoding: ASCII}
+\begin{center}
+	\visible{\includegraphics[width=\textwidth]{asciichart.png}}
+\end{center}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{String literals continued}
+\begin{itemize}
+    \item International characters sometimes problematic, think web adresses or old filesystems/databases
+        \pause
+    \item To overcome this, you can use \texttt{str.encode()} to encode into bytes
+\begin{lstlisting}[style=python,belowskip=-1.5\baselineskip]
+str_var = "Let's go to the Provençe!" # utf-8 string | \pause |
+str_ascii = str_var.encode() # bytes | \pause |
+# b"Let's go to the Proven\xc3\xa7e!"
+\end{lstlisting} (see \href{http://www.ltg.ed.ac.uk/~richard/utf-8.cgi}{UTF-8} tool) 
+\pause
+    \item get the original UTF-8 string back by \texttt{bytes.decode()}
+        \pause
+\begin{lstlisting}[style=python]
+back_2_utf8 = str_ascii.decode('utf-8') # back to UTF-8
+# "Let's go to the Provençe!"
+\end{lstlisting}
+\end{itemize}
+\end{frame}
 
-\begin{itemize}\addtolength{\itemsep}{.5\baselineskip}
-	\item<1-> Matching of patterns in text is a common programming task
+\begin{frame}[fragile]
+    \frametitle{String literals: raw strings}
+\begin{itemize}
+	\item 
+
+
+
 	\item<2-> Some examples:
         \begin{itemize}\addtolength{\itemsep}{.25\baselineskip}
             \item<3-> Mining collections of text for occurrences of certain words/numbers (twitter feeds, abstracts, etc)
