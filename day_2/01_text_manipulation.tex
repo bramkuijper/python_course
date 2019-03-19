@@ -1,7 +1,7 @@
 %=============================================================================%
-% Author: 	John Joseph Valletta, Bram Kuijper
-% Date: 	14/03/2017, 04/03/2019
-% Title: 	Python workshop: flow control
+% Author: 	Bram Kuijper
+% Date: 	20/03/2019
+% Title: 	Python workshop: strings and regex
 %=============================================================================%
 
 %=============================================================================%
@@ -168,6 +168,7 @@ str_ascii = b"Let's go to the Provençe!" # Error | \pause |
 str_ascii = b"Let's go to the Provence!" # Works (meh) | \pause |
 type(str_ascii) # <class 'bytes'>
 \end{lstlisting}
+\pause
 \item \href{https://docs.python.org/3/howto/unicode.html}{UTF-8} and \href{https://en.wikipedia.org/wiki/ASCII}{ASCII} are encodings which specify how characters translate into 0s and 1s
 \end{itemize}
 \end{frame}
@@ -186,11 +187,11 @@ type(str_ascii) # <class 'bytes'>
 \begin{lstlisting}[style=python,belowskip=-1.5\baselineskip]
 str_var = "Let's go to the Provençe!" # utf-8 string | \pause |
 str_ascii = str_var.encode() # bytes | \pause |
-# b"Let's go to the Proven\xc3\xa7e!"
-\end{lstlisting} (see \href{http://www.ltg.ed.ac.uk/~richard/utf-8.cgi}{UTF-8} tool) 
-\pause
-    \item get the original UTF-8 string back by \texttt{bytes.decode()}
+# b"Let's go to the Proven\xc3\xa7e!" | \pause |
+\end{lstlisting}
+    \item Here, \texttt{\textbackslash xc3} and \texttt{\textbackslash xa7} are \href{https://docs.python.org/3/reference/lexical_analysis.html#grammar-token-stringescapeseq}{escape sequences} that together encode \c{c} as a hex number (see \href{http://www.ltg.ed.ac.uk/~richard/utf-8.cgi?input=&mode=char}{UTF-8} tool) 
         \pause
+    \item The original UTF-8 string can be recovered from \texttt{bytes.decode()}
 \begin{lstlisting}[style=python]
 back_2_utf8 = str_ascii.decode('utf-8') # back to UTF-8
 # "Let's go to the Provençe!"
@@ -199,24 +200,81 @@ back_2_utf8 = str_ascii.decode('utf-8') # back to UTF-8
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{String literals: raw strings}
+    \frametitle{Escaping the escape sequences}
 \begin{itemize}
-	\item 
-
-
-
-	\item<2-> Some examples:
-        \begin{itemize}\addtolength{\itemsep}{.25\baselineskip}
-            \item<3-> Mining collections of text for occurrences of certain words/numbers (twitter feeds, abstracts, etc)
-            \item<4-> Working with files (matching certain filenames but not others) 
-            \item<5-> Converting data from one format to another (e.g., factor levels, dates)
-            \item<6-> Validation of user input in interactive programs
-        \end{itemize}
-    \item<7-> Solution: \textbf{regular expressions}
+    \item Sometimes we do not want \texttt{\textbackslash} to be interpreted as an \href{https://docs.python.org/3/reference/lexical_analysis.html#grammar-token-stringescapeseq}{escape sequence}:
+\begin{lstlisting}[style=python,belowskip=-1 \baselineskip] 
+windows_path = "C:\new_file.csv"
+# C:
+# ew_file.csv
+\end{lstlisting}
+        \pause
+\item \texttt{\textbackslash n} is interpreted as a \href{https://en.wikipedia.org/wiki/Newline}{newline character}
+    \pause
+\item We can prevent this by writing another backslash:
+\begin{lstlisting}[style=python,belowskip=-1 \baselineskip]
+windows_path = "C:\\new_file.csv"
+# C:\new_file.csv
+\end{lstlisting} \pause
+\item or by using a raw string literal (prefix: \texttt{r"..."})
+\begin{lstlisting}[style=python]
+windows_path = r"C:\new_file.csv"
+# C:\new_file.csv
+\end{lstlisting}
 \end{itemize}
-
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{Various string methods}
+    \begin{itemize} 
+        \item Lots of \href{https://docs.python.org/3/library/stdtypes.html#string-methods}{string methods} available. Some examples: \pause
+    \begin{itemize}\addtolength{\itemsep}{-1\baselineskip}
+    \item Split strings in words
+\begin{lstlisting}[style=python]
+string1 = "Split this string up"
+string1.split()
+#["Split","this","string","up"]
+\end{lstlisting} \pause
+    \item Join a list of words
+\begin{lstlisting}[style=python]
+list_of_words = ["Join","me","together!"]
+"--".join(list_of_words)
+# Join--me--together
+\end{lstlisting} \pause
+    \item Find/replace substrings
+\begin{lstlisting}[style=python]
+str_subject = "Great rockpools at Swanpool beach"
+str_subject.find("pool") # 10
+str_subject.rfind("pool") # 23
+str_subject.replace("pool","puddle")  # "Great rockpuddles at Swanpuddle beach"
+\end{lstlisting} \pause
+    \end{itemize} 
+\end{itemize} 
+\end{frame} 
+
+\begin{frame}[fragile]
+    \frametitle{String \texttt{isX} methods}
+    \begin{itemize} 
+        \item Identifying string contents using various \href{https://docs.python.org/3/library/stdtypes.html#string-methods}{\texttt{str.isX()}} functions \pause
+    \begin{itemize}\addtolength{\itemsep}{-1\baselineskip}
+    \item All characters in the string are numeric
+\begin{lstlisting}[style=python]
+string1 = "899898"
+string1.isnumeric() # True | \pause |
+string2 = "8998.98"
+string2.isnumeric() # False
+\end{lstlisting} \pause
+    \item All characters in the string are alphabetic
+\begin{lstlisting}[style=python]
+string1 = "Thisisallalphabetic"
+string1.isalpha() # True | \pause |
+string2 = "Now with whitespace"
+string2.isalpha() # False
+\end{lstlisting} \pause
+    \item Lots of other \texttt{str.isX()} functions available. As we see later, however, regular expressions often preferable to search for patterns in text
+    \end{itemize}
+\end{itemize}
+\end{frame}
 
 %=============================================================================%
 %=============================================================================%
@@ -249,13 +307,13 @@ for i in range(0,len(s)):
 # load the regular expression module
 import re
 
-# a string of text with dates (allowing for single digit days and months)
+# text with dates (with single digit days and months)
 s = "23.01.1980,8.9.1990,15-03-2019"
 
-# match with a regular expression (given as a r"" [raw literal] string)
+# regular expression (given as a r"" [raw literal] string)
 all_dates = re.findall(r"(\d{1,2})[-\.](\d{1,2})[-\.](\d{4})",s)
 
-# print 1980-01-23 etc
+# print the result
 for date in all_dates:
     print(date[2] + "-" + date[1].zfill(2) + "-" + date[0].zfill(2))
 \end{lstlisting}
@@ -265,126 +323,195 @@ for date in all_dates:
 \begin{frame}[fragile]
 \frametitle{What is a regular expression?}
     \begin{itemize}
-        \item<1-> A tiny, highly specialized programming language within Python
-        \item<2-> Made available in the \texttt{re} module
-        \item<3-> Specifies the rules to match occurrences of patterns in text
-        \item<4-> Allows you to modify text that matches a pattern (using \texttt{re.sub()})
-        \item<5-> Provide a regular expression pattern as a string of text:
+        \item A tiny, highly specialized programming language within Python \pause 
+        \item Made available in the \texttt{re} module \pause
+        \item Specifies the rules to match (and replace) occurrences of patterns in text \pause 
+        \item An example:
 \begin{lstlisting}[style=python]
-# specify a pattern that matches '3foo' but not 'foo'
-regex_pattern = r"\dfoo"
+import re  | \pause |
+str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
+# regex that matches '1foo', '2foo' etc but not 'foo'
+regex = r"\dfoo" | \pause |  
+re.findall(regex, str_to_match) # ['1foo','2foo']
 \end{lstlisting}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Regular expressions: patterns}
-    \begin{itemize}
-        \item<1->\texttt{\textbackslash d} matches any character that is a digit
-        \item<2->\texttt{\textbackslash D} matches any character that is not a digit
-        \item<3->\texttt{\textbackslash s} matches any whitespace character (e.g., a space, a tab, a newline)
-        \item<4->\texttt{\textbackslash S} matches any character that is not a whitespace
-        \item<5->\texttt{\textbackslash b} matches a word boundary
-    \end{itemize}
-\end{frame}
+%=============================================================================%
+%=============================================================================%
 
-%=============================================================================%
-%=============================================================================%
 \begin{frame}[fragile]
 \frametitle{Regular expressions: functions}
     \begin{itemize}
-        \item<1->\texttt{re.search(pattern, string [,flags])} Searches for \texttt{pattern} in \texttt{string}, return a
+        \item \href{https://docs.python.org/3.7/library/re.html#re.findall}{\texttt{re.findall()}} matches all occurrences of a pattern \pause
+        \item \href{https://docs.python.org/3.7/library/re.html#re.search}{\texttt{re.search()}} matches the first occurrence of a pattern
+\begin{lstlisting}[style=python,belowskip=-1 \baselineskip]
+str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
+# pattern that matches '1foo', '2foo' etc but not 'foo'
+regex = r"\dfoo" # regex | \pause |  
+re.search(regex, str_to_match) # Match object  | \pause |
+
+regex = r"\dfAA" # another regex which does not match | \pause |  
+re.search(regex, str_to_match) # None
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Regular expressions: functions II}
+    \begin{itemize}
+        \item \href{https://docs.python.org/3.7/library/re.html#re.sub}{\texttt{re.sub()}} replaces occurrences of patterns in a string \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
+# pattern that matches '1foo', '2foo' etc but not 'foo'
+# and remembers the digit using a group () 
+regex = r"(\d)foo" # regex | \pause |  
+# replace foo by bar but keep the digit
+replacement = r"\1bar" # regex | \pause |  
+re.sub(regex, replacement, str_to_match) # Factor levels are 1bar, 2bar and foo
+\end{lstlisting} \pause
+        \item Everything within \texttt{()} (a group) is stored in memory \pause
+        \item Group contents can be recalled in the replacement, using \texttt{\textbackslash 1},\texttt{\textbackslash 2} 
+    \end{itemize}
+\end{frame}
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Testing regular expressions}
+        \begin{itemize}
+            \item Practice regular expressions at \url{https://regex101.com/} 
+                \begin{center}
+	\visible{\includegraphics[width=0.7\textwidth]{regex101.png}}
+                \end{center}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Regular expressions: syntax}
+    
+    The \href{https://docs.python.org/3.7/library/re.html#regular-expression-syntax}{syntax} for different patterns:
+    \begin{itemize}
+        \item\texttt{\textbackslash d} matches any character that is a digit \pause
+        \item\texttt{\textbackslash D} matches any character that is not a digit \pause
+        \item\texttt{\textbackslash s} matches any whitespace character (e.g., a space, a tab, a newline) \pause
+        \item\texttt{\textbackslash S} matches any character that is not a whitespace \pause
+        \item\texttt{\textbackslash b} matches a word boundary \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str_to_match = "Factor levels are snafoo, foosna and foo" | \pause |
+regex = r"\bfoo\b" # regex | \pause |  
+m = re.search(regex, str_to_match) # Factor levels are snafoo, foosna and bar
+m.group(0) # obtain the complete match from the Match object
+m.start() # Match position in string: 37
+\end{lstlisting} \pause
+        \item\texttt{\textbackslash B} does not match a word boundary 
+    \end{itemize}
+\end{frame}
+
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Regular expressions: syntax II}
+    
+    The \href{https://docs.python.org/3.7/library/re.html#regular-expression-syntax}{syntax} for different patterns:
+    \begin{itemize}
+        \item\texttt{.} matches any character (except a newline) \pause
+        \item\texttt{\^} matches the start of a string \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "foo snafoo funfoo"
+regex = r"^foo" # regex matching the first foo | \pause |  
+m = re.search(regex, str1) 
+m.start() # match position in string: 0
+\end{lstlisting} \pause
+        \item\texttt{\$} matches end of a string 
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "foo snafoo funfoo"
+regex = r"foo$" # regex matching the last foo | \pause |  
+m = re.search(regex, str1) 
+m.start() # match position in string: 14 
+\end{lstlisting} \pause
+    \item \texttt{[...]} matches a range of characters
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "the number 60 is larger than 59"
+regex = r"[0-5][0-9]" # matches 00 to 59 | \pause |  
+m = re.search(regex, str1) 
+m.group(0) # 59
+\end{lstlisting} 
+    \end{itemize}
+\end{frame}
+
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Regular expressions: repetitions}
+    Specify \href{https://docs.python.org/3.7/library/re.html#regular-expression-syntax}{number of times} patterns are matched
+    \begin{itemize} \pause
+        \item\texttt{*} matches preceding regex 0 or more times \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "numbers 60, 500 and 3000"
+regex = r"\d*" # matches 0 or more occurrences of numbers | \pause |  
+re.findall(str1,regex) #  ['', '', '', '', '', '', '', '', '60', '', '500', '', '', '', '', '', '3000', '']
+\end{lstlisting} \pause
+        \item\texttt{+} matches preceding regex 1 or more times \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "numbers 60, 500 and 3000"
+regex = r"\d+" # matches 1 or more occurrences of numbers | \pause |  
+re.findall(str1,regex) #  ['60', '500', '3000']
+\end{lstlisting} \pause
+        \item\texttt{?} matches preceding regex 0 or 1 times \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "numbers 60, 500 and 3000"
+regex = r"\d?" # matches 0 or 1 occurrences of numbers | \pause |  
+re.findall(str1,regex) # ['', '', '', '', '', '', '', '', '6', '0', '', '', '5', '0', '0', '', '', '', '', '', '3', '0', '0', '0', '']
+\end{lstlisting} 
+    \end{itemize}
+\end{frame}
+
+%$
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+    \frametitle{Regular expressions: repetitions continued}
+    Specify \href{https://docs.python.org/3.7/library/re.html#regular-expression-syntax}{number of times} patterns are matched
+    \begin{itemize} \pause
+        \item\texttt{\{n\}} match preceding regex exactly n times \pause
+        \item\texttt{\{n,m\}} match preceding regex minimally n and maximally m times \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "numbers 5, 60, 500, 3000, 50000"
+regex = r"\d{2,4}" # matches numbers of 2 to 4 digits | \pause |  
+re.findall(str1,regex) # ['60', '500', '3000', '5000']
+\end{lstlisting} \pause
+        \item\texttt{*?}, \texttt{+?}, \texttt{??}, \texttt{\{m,n\}?} minimize the number of times a pattern matches \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str1 = "numbers 5, 60, 500, 3000, 50000"
+regex = r"\d{2,4}?" # matches numbers of 2 to 4 digits, favoring minimal numbers | \pause |  
+re.findall(str1,regex) # ['60', '50', '30', '00', '50', '00']
+\end{lstlisting} \pause
     \end{itemize}
 \end{frame}
 
 %=============================================================================%
 %=============================================================================%
+
 \begin{frame}[fragile]
-\frametitle{List Comprehensions}
-
-\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
-
-\item<1-> List comprehensions are an optimized and readible method for creating a list
-
-\item<2-> Recall the previous example where we looped over gene names and printed them in upper
-case
-\begin{lstlisting}[style=python]
-geneNames = ["Irf1", "Ccl3", "Il12rb1", "Ifng", "Cxcl10"]
-for gene in geneNames:
-    print(gene.upper())
-\end{lstlisting}
-
-\item<3-> What if I want to store the upper case gene names in another variable, 
-called \texttt{x} for simplicity?
-
-\end{itemize}
-
+    \frametitle{Regex exercise}
+    \begin{itemize}
+        \item Use \url{https://regex101.com/} to write dates in \texttt{"23.01.1980,29-03-2019"} as \texttt{"1980-01-23,2019-03-29"} \pause
+        \item In Python, that is:
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+two_dates = "23.01.1980,29-03-2019" 
+date_regex = r"(\d{1,2})[\.-](\d{1,2})[\.-](\d{2,4})"
+date_substitution = r"\3-\2-\1"
+re.sub(date_regex, date_substitution, two_dates)
+# 23-01-1980,29-3-2019 
+\end{lstlisting} 
+    \end{itemize}
 \end{frame}
 
-%=============================================================================%
-%=============================================================================%
-\begin{frame}[fragile]
-\frametitle{List Comprehensions}
-
-\begin{enumerate}
-\item<1-> Using for loops:
-\begin{lstlisting}[style=python]
-x = [] # create an empty list to append to
-for gene in geneNames:
-    x.append(gene.upper())
-\end{lstlisting}
-
-\item<2-> Using list comprehension:
-\begin{lstlisting}[style=python]
-x = [gene.upper() for gene in geneNames]
-\end{lstlisting}
-
-\item<3-> What if I want to ignore gene \texttt{Ifng}?
-\begin{lstlisting}[style=python]
-x = [gene.upper() for gene in geneNames if gene != "Ifng"]
-\end{lstlisting}
-
-\end{enumerate}
-
-\end{frame}
-
-%=============================================================================%
-%=============================================================================%
-\begin{frame}[fragile]
-\frametitle{Enumerate}
-
-\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
-\item<1-> When looping over lists, sometimes it's useful to keep track of the
-index of the iteration
-
-\item<2-> \textbf{Enumerate} is a built-in function that lets us access the
-iterable element but also its index
-
-\item<3-> Print the index next to upper cased gene name
-
-\begin{enumerate}\addtolength{\itemsep}{-1\baselineskip}
-
-\item<3-> Using a standard for loop:
-\begin{lstlisting}[style=python]
-i = 0 # index counter
-for gene in geneNames:
-    print("{0}. {1}\n".format(i+1, gene.upper()))
-    i = i + 1
-\end{lstlisting}
-
-\item<4-> Using \texttt{enumerate}:
-\begin{lstlisting}[style=python]
-for i, gene in enumerate(geneNames):
-    print("{0}. {1}\n".format(i+1, gene.upper()))
-\end{lstlisting}
-
-\end{enumerate}
-\end{itemize}
-
-\end{frame}
-
-%=============================================================================%
-%=============================================================================%
 % End of Document
 %=============================================================================%
 %=============================================================================%

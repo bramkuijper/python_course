@@ -1,0 +1,197 @@
+%=============================================================================%
+% Author: 	Bram Kuijper
+% Date: 	20/03/2019
+% Title: 	Python workshop: strings and regex
+%=============================================================================%
+
+%=============================================================================%
+% Preamble
+%=============================================================================%
+% Libraries
+
+\documentclass[xcolor=table]{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\usepackage[]{graphicx}
+\usepackage{array}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{lightgray}{rgb}{0.92,0.92,0.92}
+\usepackage{listings} % to insert code
+\usepackage{textpos} % textblock
+\usepackage{textcomp} % textblock
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
+% Listing set up
+% bash
+\lstdefinestyle{bash}{
+language=bash,                     % the language of the code
+basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
+numbers=none,%left,                   % where to put the line-numbers
+numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                          % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{lightgray},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,%single,                   % adds a frame around the code
+rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                          % also try caption instead of title
+keywordstyle=\color{blue},      % keyword style
+commentstyle=\color{dkgreen},   % comment style
+stringstyle=\color{mauve},      % string literal style
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={}            % if you want to add more keywords to the set
+}
+
+% Python
+\lstdefinestyle{python}{
+language=python,
+formfeed=\newpage,
+basicstyle=\scriptsize\ttfamily,
+commentstyle=\color{deepgreen},%\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
+stepnumber=1,
+numbersep=5pt,
+extendedchars=true,
+inputencoding=utf8x,
+backgroundcolor=\color{lightgray},%\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=lines,
+upquote=true,
+tabsize=4,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside=||,
+keywordstyle=\color{deepblue},
+emphstyle=\color{deepred},
+stringstyle=\color{mauve},
+literate={ö}{{\"o}}1
+       {ä}{{\"a}}1
+       {ü}{{\"u}}1
+       {ç}{{\c{c}}}1
+%morekeywords={models, lambda, forms}
+}
+
+\graphicspath{ {../img/} }
+\title[Python for scientific research]{Python for scientific research}
+\subtitle{Input, output and the filesystem}
+\author{Bram Kuijper}
+\institute[]{University of Exeter, Penryn Campus, UK}
+\titlegraphic{
+\hfill
+\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
+%=============================================================================%
+%=============================================================================%
+% Start of Document
+%=============================================================================%
+%=============================================================================%
+\begin{document}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}
+\titlepage
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}{What we've done so far}
+
+	\begin{enumerate}\addtolength{\itemsep}{1\baselineskip}
+		\item Declare variables using built-in data types and execute operations
+		on them
+		\item Use flow control commands to dictate the order in which commands are run
+		and when
+		\item Encapsulate programs into reusable functions, modules and packages
+        \item Work with textual data and pattern matching
+        \item \textbf{Next} interact with the file system
+	\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Writing files}
+\begin{itemize}
+    \item open a file for writing, using the \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} command \pause
+\begin{lstlisting}[style=python]
+# the 'w' flag reflects that we write to a file
+# any existing contents will be overwritten
+the_file_object = open("my_first_file","w") | \pause |
+
+# write a string to the file
+the_file_object.write("Hello world!") | \pause |
+
+# always close the file
+the_file_object.close()
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Reading files}
+\begin{itemize}
+    \item open a file for reading, using the \href{https://docs.python.org/3/library/functions.html#read}{\texttt{read()}} command \pause
+\begin{lstlisting}[style=python]
+# the 'r' flag reflects that we read from a file
+the_file_object = open("my_first_file","r") | \pause |
+
+# get the file contents as a string
+file_contents = the_file_object.read() | \pause |
+
+# always close the file
+the_file_object.close() | \pause |
+
+# process file output
+print(file_contents) # Hello World!
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Other file operations}
+\begin{itemize}
+    \item File operations can be specified by the flag provided to \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} function \pause 
+\begin{center}
+    \rowcolors{1}{}{lightgray} %-- this indicates the change in odd and pair rows
+    \begin{tabular}{|l|l|}\hline
+        Flag & File operation \\ \hline
+        \texttt{"w"}
+    & Write to a file, file will be truncated first \\
+        \texttt{"r"} & Reading from a file \\
+        \texttt{"r+"} & Reading and writing to a file \\
+        \texttt{"a"} & Append to a file \\
+        \texttt{"a+"} & Read from and write (by appending) to a file \\
+        \texttt{"x"} & Exclusive creation, fails if file exists \\ \hline
+    \end{tabular}
+\end{center}
+\end{itemize}
+\end{frame}
+% End of Document
+%=============================================================================%
+%=============================================================================%
+\end{document}
