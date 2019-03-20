@@ -27,6 +27,7 @@
 \usepackage{textpos} % textblock
 \usepackage{textcomp} % textblock
 \usepackage{hyperref}
+\usepackage{dirtree}
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
 % Listing set up
 % bash
@@ -115,7 +116,6 @@ literate={ö}{{\"o}}1
 %=============================================================================%
 %=============================================================================%
 \begin{frame}{What we've done so far}
-
 	\begin{enumerate}\addtolength{\itemsep}{1\baselineskip}
 		\item Declare variables using built-in data types and execute operations
 		on them
@@ -123,9 +123,180 @@ literate={ö}{{\"o}}1
 		and when
 		\item Encapsulate programs into reusable functions, modules and packages
         \item Work with textual data and pattern matching
-        \item \textbf{Next} interact with the file system
+        \item \textbf{Next} working with files \& the file system 
 	\end{enumerate}
 
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Working with the filesystem: key modules}
+\begin{itemize}\addtolength{\itemsep}{\baselineskip}
+    \item Work with \emph{names} of directories and files (pathnames) \pause
+    \begin{itemize}
+        \item Newer, object-oriented \href{https://docs.python.org/3/library/pathlib.html#module-pathlib}{\texttt{Pathlib}} module (Python 3.5+) \pause
+        \item This course: conventional \href{https://docs.python.org/3.7/library/os.path.html}{\texttt{os.path}} module \pause
+    \end{itemize}
+\item Access the filesystem (disks, file descriptors, directories, etc): \pause
+    \begin{itemize}
+        \item Basic filesystem tasks: the \href{https://docs.python.org/3.7/library/os.html#module-os}{\texttt{os}} module (user access rights, removing directories, etc) \pause
+        \item High-level operations: the \href{https://docs.python.org/3/library/shutil.html}{\texttt{shutil}} module (copying files, removing directory trees, etc)  \pause
+    \end{itemize}
+\item Reading and writing files
+    \begin{itemize}
+        \item The \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} command \pause
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Working with filesystems: key functions}
+\begin{itemize}\addtolength{\itemsep}{\baselineskip}
+        \item Some important functions of the \href{https://docs.python.org/3.7/library/os.html#module-os}{\texttt{os}} module:\pause
+            \begin{itemize}\addtolength{\itemsep}{\baselineskip}
+                \item \href{https://docs.python.org/3.7/library/os.html#os.getcwd}{\texttt{os.getcwd()}} obtains current working directory \pause
+                \item \href{https://docs.python.org/3.7/library/os.html#os.chdir}{\texttt{os.chdir(dir)}} changes current working directory to \texttt{dir} \pause
+                \item \href{https://docs.python.org/3.7/library/os.html#os.rmdir}{\texttt{os.rmdir(dir)}} removes directory \texttt{dir} \pause
+                \item \href{https://docs.python.org/3.7/library/os.html#os.mkdir}{\texttt{os.mkdir(dir)}} makes directory \texttt{dir} \pause
+                \item \href{https://docs.python.org/3.7/library/os.html#os.listdir}{\texttt{os.listdir(dir=".")}} list files in directory \texttt{dir} \pause
+                \item \href{https://docs.python.org/3.7/library/os.html#os.walk}{\texttt{os.walk(dir)}} loop through all subdirectories and files in directory \texttt{dir} \pause
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Working with filesystems: key functions II}
+        \begin{itemize}\addtolength{\itemsep}{\baselineskip}
+            \item Some important functions of the \href{https://docs.python.org/3.7/library/os.html#module-os.path}{\texttt{os.path}} module:\pause
+                \begin{itemize}\addtolength{\itemsep}{\baselineskip}
+                        \item \href{https://docs.python.org/3.7/library/os.path.html#os.path.exists}{\texttt{os.path.exists(path)}} checks whether path exists \pause
+                        \item \href{https://docs.python.org/3.7/library/os.path.html#os.path.expanduser}{\texttt{os.path.expanduser("\textasciitilde")}} provides home directory name of current user \pause
+                        \item \href{https://docs.python.org/3.7/library/os.path.html#os.path.join}{\texttt{os.path.join(path1,path2)}} concatenates path1 and path2  \pause
+                        \item \href{https://docs.python.org/3.7/library/os.path.html#os.path.split}{\texttt{os.path.split(path)}} splits path \texttt{a/b/c.txt} into \texttt{(a/b, c.txt)} \pause
+                        \item \href{https://docs.python.org/3.7/library/os.path.html#os.path.splitext}{\texttt{os.path.splitext(path)}} splits path \texttt{a/b/c.ext} into \texttt{(a/b/c, ext)} \pause
+                \end{itemize}
+        \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Working with paths 1}
+    \begin{itemize}
+        \item Task: what is the current working directory? 
+            \begin{itemize}
+                \item Access the filesystem using the \href{https://docs.python.org/3.7/library/os.html#module-os}{\texttt{os}} module: \pause
+            \end{itemize}
+\begin{lstlisting}[style=python]
+import os # import modules | \pause |
+
+wdir = os.getcwd() # returns pathname (as string) | \pause |
+print(wdir) # e.g., "C:\" 
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Working with paths 2}
+    \begin{itemize}
+        \item Task: change the current working directory to the home directory: \pause
+    \begin{itemize}
+            \item Access the filesystem using the \href{https://docs.python.org/3.7/library/os.html#module-os}{\texttt{os}} module 
+            \item Manipulate path names using the \href{https://docs.python.org/3.7/library/os.path.html}{\texttt{os.path}} module \pause
+    \end{itemize}
+\begin{lstlisting}[style=python]
+import os, os.path # import modules | \pause |
+
+# Get homedir through expanduser()
+# "~" denotes homedir in Unix (but this works on Windows too)
+home_dir = os.path.expanduser("~") | \pause |
+print(home_dir) # "C:\Users\foo323" | \pause |
+
+# change the directory to the homedir
+os.chdir(home_dir) | \pause |
+
+# check the result
+print(os.getcwd()) # "C:\Users\foo323"
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+%\begin{frame}[fragile]
+%    \frametitle{Finding files}
+%            \dirtree{%
+%    .1 C:.
+%    .2 Users.
+%    .2 Public.
+%    .3 foo323.
+%    .4 Desktop.
+%    .4 Downloads.
+%    .4 Saved Games.
+%    .4 Photos 2018.
+%    .4 Scripts.
+%            }
+%    \begin{itemize}
+%        \item Task: in your home directory, find all directories (non-nested) whose names contain whitespace 
+%    \end{itemize}
+%\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Finding files}
+    \begin{itemize}
+        \item Task: in your home directory, find all directories (non-nested) which contain whitespace
+\begin{lstlisting}[style=python]
+import re, os, os.path # import the modules | \pause |
+
+# go to home dir
+home_dir = os.path.expanduser("~") | \pause |
+os.chdir(home_dir) | \pause |
+
+# list all files in home dir
+file_list = os.listdir() # ["Desktop", "Downloads", ...] | \pause |
+
+# declare list containing dirs with spaces
+dirs_with_spaces = [] | \pause |
+
+for file_i in file_list: | \pause |
+    # check for white space in filename and whether file is directory
+    if re.search(r"\s",file_i) is not None and os.path.isdir(file_i): | \pause |
+        dirs_with_spaces += [file_i] # append
+\end{lstlisting} \pause
+\item \href{https://docs.python.org/3.7/library/os.html#os.listdir}{os.listdir()} retrieves a list of files in the current directory (not of any subdirectories)
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Finding files 2}
+    \begin{itemize}
+        \item Task: list all files \emph{anywhere} within the home directory which have a size larger than 50 kB \pause
+        \item We now need to iterate over all files, using \href{https://docs.python.org/3.7/library/os.html#os.walk}{os.walk()}
+    \begin{itemize}
+        \item \href{https://docs.python.org/3.7/library/os.html#os.walk}{os.walk()} walks the directory tree, returning a tuple for each directory with \texttt{(parent_dir, subdirectories, files)}
+
+\begin{lstlisting}[style=python]
+import re, os, os.path # import the modules | \pause |
+
+# go to home dir
+home_dir = os.path.expanduser("~") | \pause |
+os.chdir(home_dir) | \pause |
+
+# list all files in home dir
+file_list = os.listdir() # ["Desktop", "Downloads", ...] | \pause |
+
+# declare list containing dirs with spaces
+dirs_with_spaces = [] | \pause |
+
+for file_i in file_list: | \pause |
+    # check for white space in filename and whether file is directory
+    if re.search(r"\s",file_i) is not None and os.path.isdir(file_i): | \pause |
+        dirs_with_spaces += [file_i] # append
+\end{lstlisting}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
