@@ -12,8 +12,9 @@
 \documentclass[xcolor=table]{beamer}
 \usepackage{beamerthemeshadow}
 \usepackage[T1]{fontenc}
+%\usepackage{mathptmx}
 \usepackage{helvet}
-\usepackage{mathptmx}
+\usefonttheme[onlymath]{serif}
 \usepackage[]{graphicx}
 \usepackage{array}
 \usepackage{color}
@@ -95,7 +96,7 @@ literate={ö}{{\"o}}1
 
 \graphicspath{ {../img/} }
 \title[Python for scientific research]{Python for scientific research}
-\subtitle{Input, output and the filesystem}
+\subtitle{Number crunching with \texttt{NumPy} and \texttt{SciPy}}
 \author{Bram Kuijper}
 \institute[]{University of Exeter, Penryn Campus, UK}
 \titlegraphic{
@@ -116,7 +117,8 @@ literate={ö}{{\"o}}1
 
 %=============================================================================%
 %=============================================================================%
-\begin{frame}{What we've done so far}
+%\begin{frame}{What we've done so far}
+    \begin{frame}{Speedy express}
 
 	\begin{enumerate}\addtolength{\itemsep}{.5\baselineskip}
 		\item Declare variables using built-in data types and execute operations
@@ -125,14 +127,14 @@ literate={ö}{{\"o}}1
 		and when
 		\item Encapsulate programs into reusable functions, modules and packages
 		\item Use string manipulation and regex to work with textual data
-        \item Interact with the file system; read \& write files
+        \item Interact with the file system
 		\item \textbf{Next}: Number crunching using \texttt{NumPy/SciPy}
 	\end{enumerate}
 
 \end{frame}
 
-%=============================================================================%
-%=============================================================================%
+=============================================================================%
+=============================================================================%
 \begin{frame}{Motivation}
 
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
@@ -140,17 +142,15 @@ literate={ö}{{\"o}}1
 	such as, computing Pearson's correlation coefficient
 	or generating random numbers
 
-	\item<2-> The \texttt{NumPy} (numeric python) package provides
-	a comprehensive set of mathematical data structures (e.g vector, matrix)
-	and functions (e.g trigonometry, random number generator) 
+\item<2-> The \href{https://docs.scipy.org/doc/numpy/user/quickstart.html}{\texttt{NumPy}} (numeric python) package provides a comprehensive set of mathematical data structures (e.g vector, matrix)
+	and functions (e.g trigonometry, random number generators) 
 
-	\item<3-> The \texttt{SciPy} (scientific python) library builds on top
-	of \texttt{NumPy} to provide a collection of numerical algorithms for: 
+	\item<3-> The \href{https://docs.scipy.org/doc/scipy/reference/}{\texttt{SciPy}} (scientific python) library builds on top of \texttt{NumPy} to provide a collection of numerical algorithms for: 
 	\begin{itemize}
-		\item<4-> Statistics (e.g correlation coefficient)
-		\item<5-> Signal processing (e.g Fourier transform, filtering)
-		\item<6-> Solving differential equations
-		\item<7-> Optimisation
+        \item<4-> Statistics (e.g correlation coefficients) using \href{https://docs.scipy.org/doc/scipy/reference/tutorial/stats.html}{\texttt{scipy.stats}} 
+        \item<5-> Signal processing (e.g Fourier transform, filtering) using \href{https://docs.scipy.org/doc/scipy/reference/tutorial/fftpack.html}{\texttt{scipy.fftpack}} and \href{https://docs.scipy.org/doc/scipy/reference/tutorial/signal.html}{\texttt{scipy.signal}} 
+        \item<6-> Solving differential equations, using \href{https://docs.scipy.org/doc/scipy/reference/integrate.html}{\texttt{scipy.integrate}} 
+        \item<7-> Optimisation using \href{https://docs.scipy.org/doc/scipy/reference/tutorial/optimize.html}{\texttt{scipy.optimize}} 
 		\item<8-> $\ldots$
 	\end{itemize}
 \end{itemize}
@@ -159,29 +159,82 @@ literate={ö}{{\"o}}1
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
-\frametitle{A taste of NumPy}
-
+\frametitle{A taste of NumPy: vectors}
+    \begin{itemize}
+        \item Example of a \texttt{NumPy} vector
 \begin{lstlisting}[style=python]
 import numpy as np
 
 # 1D array/vector
-x = np.array([1, 2, 3, 4])
+x = np.array([1, 3, 4, 2])
 x.min() # return min of array 
 x.max() # return max of array
 x.sum() # sum all elements in array
-
-# 2D array
-x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-x*x # element-by-element multiplication
-x.shape # return dimensions of matrix
-np.dot(x, x) # matrix multiplication
-np.mat(x)*np.mat(x) # matrix multiplication (cast as matrix)
 \end{lstlisting}
+\pause 
+    \item Note that \texttt{np.array} is different from a list
+        \pause
+        \begin{itemize}
+            \item For example, operations like \texttt{list.reverse()} do not work
+        \end{itemize}
+            \pause
+    \item Easy, however, to cast \texttt{np.array} to a list
+        \pause 
+\begin{lstlisting}[style=python]
+x_list = list(x) # [1, 3, 4, 2 ]
+x_list.reverse() # now x_list is [2, 4, 3, 1]
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{A taste of NumPy: matrices and linear algebra}
+    \begin{itemize}
+        \item Specifying the matrix:
+            $$ \mathbf{x} =  \left [ \begin{array}{ccc} 
+                1 & 2 & 3 \\
+                4 & 5 & 6 \\
+                7 & 8 & 9 
+            \end{array} \right ] $$ \pause
+\begin{lstlisting}[style=python]
+import numpy as np
+# 2D array (i.e., a matrix)
+x = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) | \pause |
+x*x # element-by-element multiplication (Kronecker product) | \pause |
+x.shape # return dimensions of matrix | \pause |
+np.dot(x, x) # matrix multiplication (dot product)
+\end{lstlisting}
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
 %=============================================================================%
+\begin{frame}[fragile]
+\frametitle{A taste of NumPy: linear algebra}
+    \begin{itemize}
+        \item Calculate eigenvalues and eigenvecturs
+\begin{lstlisting}[style=python]
+import numpy as np
+
+# declare a 2x2 matrix
+x = np.array([[1, 2], [3, 4]]) | \pause |
+
+# calculate eigenvalues
+eival = np.linalg.eigvals(x) # [-0.37228132  5.37228132] | \pause |
+
+# calculate eigenvalues and right eigenvectors
+eival, eivec = np.linalg.eig(x) 
+# eigenvalues (eival): 
+# [-0.37228132  5.37228132]
+# [-0.37228132  5.37228132]
+#
+# eigenvectors (eivec):
+# [-0.82456484 -0.41597356]
+# [ 0.56576746 -0.90937671]]
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]
 \frametitle{A taste of NumPy}
 
@@ -192,7 +245,7 @@ np.random.randn() # from a normal distribution
 np.random.randn(5, 5) # 5 x 5 matrix of random numbers
 
 # Create number sequences
-np.arange(0, 1, 0.1) # 0 to 1 in steps of 0.1
+np.arange(0, 1, 0.1) # 0 to 1 (but not including 1) in steps of 0.1
 np.linspace(0, 1, 100) # 100 values between 0 and 1
 np.logspace(0, 1, 10) # 10 values between 10^0 and 10^1
 \end{lstlisting}
@@ -236,8 +289,8 @@ sp.linregress(x1, x2)
 %Predator population = - natural death + food supply
 
 \begin{align*}
- \frac{\d{u}}{\d{t}} &= \alpha u - \beta uv\\[1em]
-\frac{\d{v}}{\d{t}} &= -\gamma v + \delta uv 
+    \frac{\mathrm{d} u}{\mathrm{d} t} &= \alpha u - \beta uv\\[1em]
+\frac{\mathrm{d} v}{\mathrm{d} t} &= -\gamma v + \delta uv 
 \end{align*}
 
 % \begin{align*}
@@ -274,8 +327,8 @@ Where:
 \vspace{-0.4cm}
 \scriptsize
 \begin{align*}
- \frac{\d{u}}{\d{t}} &= \alpha u - \beta uv\\[0.5em]
-\frac{\d{v}}{\d{t}} &= -\gamma v + \delta uv 
+\frac{\mathrm{d} u}{\mathrm{d} t} &= \alpha u - \beta uv\\[1em]
+\frac{\mathrm{d} v}{\mathrm{d} t} &= -\gamma v + \delta uv 
 \end{align*}
 \normalsize
 
@@ -313,15 +366,32 @@ from scipy.integrate import odeint
 
 time = np.linspace(0, 35, 1000) # time vector
 init = [10, 5] # initial condition: 10 prey, 5 predators
-x = odeint(predator_prey, init, time) # solve
+x = odeint(predator_prey, init, time) # solve | \pause |
+# returns 2-dimensional np.array():
+#[[10.          5.        ]
+# [10.17902694  4.87146722]
+# [10.36582394  4.74852012]
+# ...
+# [36.19731528  5.37939637]
+# [36.77291203  5.61756101]
+# [37.32525798  5.87497465]] | \pause |
+
+# open a matplotlib figure
+import matplotlib.pyplot as plt  | \pause |
+
+fig = plt.figure() | \pause |
+plt.plot(time, x[:,0],"r", time, x[:,1], "b") | \pause |
+plt.xlabel("Time")
+plt.ylabel("Population size of predator and prey")
+fig.savefig("graph.pdf")
 \end{lstlisting}
+\end{frame}
 
-\vspace{-.8cm}
-
-\visible<2->{
+\begin{frame}[fragile]
+\frametitle{Solve differential equations: resulting graph}
 \begin{center}
-	\includegraphics[width=.65\textwidth]{predator_prey.pdf}
-\end{center}}
+	\includegraphics[width=\textwidth]{predator_prey.pdf}
+\end{center}
 
 \end{frame}
 
