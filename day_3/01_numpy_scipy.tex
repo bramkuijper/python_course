@@ -1,16 +1,21 @@
 %=============================================================================%
-% Author: 	John Joseph Valletta
-% Date: 	23/04/2017
-% Title: 	Python workshop: NumPy/SciPy
+% Author: 	JJ Valletta, Bram Kuijper
+% Date: 	24/03/2019
+% Title: 	Python workshop: numpy and scipy
 %=============================================================================%
 
 %=============================================================================%
 % Preamble
 %=============================================================================%
 % Libraries
-\documentclass[pdf]{beamer}
-\usepackage[export]{adjustbox}
-\usepackage{framed}
+
+\documentclass[xcolor=table]{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\usepackage{mathptmx}
+\usepackage[]{graphicx}
+\usepackage{array}
 \usepackage{color}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -21,61 +26,81 @@
 \definecolor{lightgray}{rgb}{0.92,0.92,0.92}
 \usepackage{listings} % to insert code
 \usepackage{textpos} % textblock
-\usepackage{dirtree} % to make directory trees
+\usepackage{textcomp} % textblock
 \usepackage{hyperref}
-\usepackage{amsmath} 
+\usepackage{dirtree}
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black} 
-\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % derivative d
-
 % Listing set up
+% bash
+\lstdefinestyle{bash}{
+language=bash,                     % the language of the code
+basicstyle=\scriptsize\ttfamily,       % the size of the fonts that are used for the code
+numbers=none,%left,                   % where to put the line-numbers
+numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+                          % will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{lightgray},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,%single,                   % adds a frame around the code
+rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                          % also try caption instead of title
+keywordstyle=\color{blue},      % keyword style
+commentstyle=\color{dkgreen},   % comment style
+stringstyle=\color{mauve},      % string literal style
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={}            % if you want to add more keywords to the set
+}
+
 % Python
 \lstdefinestyle{python}{
 language=python,
 formfeed=\newpage,
 basicstyle=\scriptsize\ttfamily,
 commentstyle=\color{deepgreen},%\color{gray},
-%numbers=left,
-%numberstyle=\tiny\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
 stepnumber=1,
 numbersep=5pt,
+extendedchars=true,
+inputencoding=utf8x,
 backgroundcolor=\color{lightgray},%\color{white},
 showspaces=false,
 showstringspaces=false,
 showtabs=false,
 frame=lines,
+upquote=true,
 tabsize=4,
 captionpos=b,
 breaklines=true,
 breakatwhitespace=false,
 title=\lstname,
-escapeinside={},
+escapeinside=||,
 keywordstyle=\color{deepblue},
 emphstyle=\color{deepred},
 stringstyle=\color{mauve},
-morekeywords={as, lambda, None}
+literate={ö}{{\"o}}1
+       {ä}{{\"a}}1
+       {ü}{{\"u}}1
+       {ç}{{\c{c}}}1
+%morekeywords={models, lambda, forms}
 }
 
-% Presentation configuration
-\mode<presentation>{\usetheme{Madrid}}
-\definecolor{tealblue}{rgb}{0, 0.5, 0.5}
-\usecolortheme[named=tealblue]{structure}
-\useinnertheme{circles} % circles, rectanges, rounded, inmargin
-\usefonttheme[onlymath]{serif} % makes math fonts like the usual LaTeX ones
-\setbeamercovered{transparent=4} % transparent
-\setbeamertemplate{caption}{\raggedright\insertcaption\par} % Remove the word "Figure" from caption %\setbeamertemplate{caption}[default]
-\setbeamertemplate{navigation symbols}{} % don't put navigation tools at the bottom (alternatively \beamertemplatenavigationsymbolsempty)
-\graphicspath{ {../images/} }
-
-% Titlepage
+\graphicspath{ {../img/} }
 \title[Python for scientific research]{Python for scientific research}
-\subtitle{Number crunching using \texttt{NumPy/SciPy}}
-\author{John Joseph Valletta}
-\date[June 2017]{June 2017}
+\subtitle{Input, output and the filesystem}
+\author{Bram Kuijper}
 \institute[]{University of Exeter, Penryn Campus, UK}
 \titlegraphic{
 \hfill
 \includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
-
 %=============================================================================%
 %=============================================================================%
 % Start of Document
@@ -93,12 +118,14 @@ morekeywords={as, lambda, None}
 %=============================================================================%
 \begin{frame}{What we've done so far}
 
-	\begin{enumerate}\addtolength{\itemsep}{1\baselineskip}
+	\begin{enumerate}\addtolength{\itemsep}{.5\baselineskip}
 		\item Declare variables using built-in data types and execute operations
 		on them
 		\item Use flow control commands to dictate the order in which commands are run
 		and when
 		\item Encapsulate programs into reusable functions, modules and packages
+		\item Use string manipulation and regex to work with textual data
+        \item Interact with the file system; read \& write files
 		\item \textbf{Next}: Number crunching using \texttt{NumPy/SciPy}
 	\end{enumerate}
 
