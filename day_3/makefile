@@ -1,10 +1,10 @@
-all: 01_numpy_scipy.pdf test.pdf
+all: 01_numpy_scipy.pdf 02_matplotlib.pdf
 
 01_numpy_scipy.pdf: 01_numpy_scipy.tex
 	latexmk -pdf 01_numpy_scipy.tex
 
-test.pdf: test.tex
-	latexmk -pdf test.tex
+02_matplotlib.pdf: 02_matplotlib.tex
+	latexmk -pdf 02_matplotlib.tex
 
 
 .PHONY: clean
