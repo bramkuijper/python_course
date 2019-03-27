@@ -269,12 +269,13 @@ plt.violinplot(data)
 
 \tiny
 \begin{lstlisting}[style=python]
+# import |\href{https://matplotlib.org/tutorials/colors/colormaps.html}{colormaps}|
 from matplotlib import cm
 
 # Generate some x, y, z data
 x = np.arange(-2.5, 2.5, 0.1)
 y = np.arange(-2.5, 2.5, 0.1)
-x, y = np.meshgrid(x, y)
+x, y = np.meshgrid(x, y) 
 z = np.exp(-x**2 - y**2)
 
 # Contour plot
@@ -291,7 +292,7 @@ plt.colorbar()
 
 
 \begin{frame}[fragile]
-\frametitle{3D plots: data structures}
+\frametitle{Working with data and matplotlib}
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
     \item Typical structure of 3D data 
 \begin{center}
@@ -306,11 +307,21 @@ plt.colorbar()
     \end{tabular}
     } 
 \end{center}
-    \pause
-\item Unfortunately, this 3d data has to be transformed to be \texttt{matplotlib}
+        \pause 
+    \item Before feeding the data to \texttt{matplotlib}, it needs to be transformed to a pivot table
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Working with data and matplotlib}
+\begin{itemize}
+    \item Read in and transform data
+\begin{lstlisting}[style=python]
+data_3d = np.genfromtxt(fname="example_data.csv",delimiter=",",skip_header=1)
+
+\end{lstlisting}
+\end{itemize}
+\end{frame}
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
@@ -336,9 +347,58 @@ plt.colorbar(hSurf, shrink=0.5)
 
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Mathematical annotations in graphs}
+    \begin{itemize}
+        \item Broad support for \href{https://matplotlib.org/users/text_intro.html}{text} annotation in matplotlib
+    \end{itemize}
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{plot_text_annotate.pdf}
+\end{center}
+\end{frame}
+            
+            
+\begin{frame}[fragile]
+    \tiny
+\frametitle{Mathematical annotations in graphs}
+            \begin{lstlisting}[style=python]
+# Generate sinusoidal data
+x = np.linspace(0, 4*np.pi, 100)
+y = np.sin(x)
 
+# Plot sinusoidal curve
+plt.plot(x, y, color="blue")
 
+# labels using latex commands 
+plt.xlabel(r"Time $t_{i}^{\bullet}$ before $t_{\mathrm{max}}^{2}$")
+plt.ylabel(r"Amplitude, $\hat{z}_{\circ} = \sin \left(\frac{t_{i}^{\bullet}}{1} \right)$")
 
+# plot title
+plt.title(r"My first Python plot $\int p(x) \mathrm{d}x$") 
+
+# text label with arrow using| \href{https://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html?highlight=pyplot%20annotate#matplotlib-pyplot-annotate}{pyplot.annotate} | 
+plt.annotate(s = "Sinusoid!", xy=(4.0, -0.75), xytext=(0,-0.25), arrowprops=dict(facecolor="black",linewidth=0.01))
+
+# text annotation within the plot using| \href{https://matplotlib.org/api/_as_gen/matplotlib.pyplot.text.html?highlight=pyplot%20text#matplotlib.pyplot.text}{pyplot.text} |
+plt.text(x=4.7, y = 0.5, s = r"A label $\theta$, $\beta$")
+\end{lstlisting}
+\end{frame}
+    
+
+\begin{frame}[fragile]
+\frametitle{Saving figures to files}
+    \begin{itemize}
+        \item One can automate saving figures to files using \href{https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html?highlight=pyplot%20savefig#matplotlib.pyplot.savefig}{pyplot.savefig}
+\begin{lstlisting}[style=python]
+# at the end of the figure
+
+# store figure in file (png, eps, pdf, svg, etc)
+plt.savefig(fname="lineplot.svg")
+plt.close() # plot stays in memory unless closed
+\end{lstlisting}
+        \item svg format can easily be edited using vector graphics software like Illustrator or Inkscape
+    \end{itemize}
+\end{frame}
 
 %=============================================================================%
 %=============================================================================%
