@@ -91,6 +91,39 @@ literate={ö}{{\"o}}1
 %morekeywords={models, lambda, forms}
 }
 
+\lstdefinestyle{pythonsmall}{
+language=python,
+formfeed=\newpage,
+basicstyle=\ttfamily\tiny,
+commentstyle=\color{deepgreen},%\color{gray},
+numbers=left,
+numberstyle=\tiny\color{gray},
+stepnumber=1,
+numbersep=5pt,
+extendedchars=true,
+inputencoding=utf8x,
+backgroundcolor=\color{lightgray},%\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=lines,
+upquote=true,
+tabsize=4,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+title=\lstname,
+escapeinside=||,
+keywordstyle=\color{deepblue},
+emphstyle=\color{deepred},
+stringstyle=\color{mauve},
+literate={ö}{{\"o}}1
+       {ä}{{\"a}}1
+       {ü}{{\"u}}1
+       {ç}{{\c{c}}}1
+%morekeywords={models, lambda, forms}
+}
+
 \graphicspath{ {../img/} }
 \title[Python for scientific research]{Python for scientific research}
 \subtitle{Pattern matching and text manipulation}
@@ -293,7 +326,7 @@ plt.colorbar()
 
 \begin{frame}[fragile]
 \frametitle{Working with data and matplotlib}
-\begin{itemize}\addtolength{\itemsep}{\baselineskip}
+\begin{itemize}%\addtolength{\itemsep}{-0.5\baselineskip}
     \item Typical structure of 3D data 
 \begin{center}
     { \ttfamily
@@ -301,28 +334,24 @@ plt.colorbar()
         column\_x & column\_y & column\_z \\ \hline
         0.897238 & 100000 & 4.06333241929155 \\
         0.916328 & 500 & 5.1788870872331 \\
-        0.935418 & 30 & 4.15690612434577 \\
         0.954509 & 100909 & 5.1788870872331 \\
         .... & ... & ... \\ \hline
     \end{tabular}
     } 
 \end{center}
-        \pause 
-    \item Before feeding the data to \texttt{matplotlib}, it needs to be transformed to a pivot table
+    \item  Data needs to be transformed to a pivot table before plotting. Example:
+\begin{lstlisting}[style=pythonsmall]
+print(z)
+# [[3.72665317e-06 6.08307642e-06 9.73288695e-06 ... 1.52642052e-05
+#   9.73288695e-06 6.08307642e-06]
+#  ...
+#  [6.08307642e-06 9.92950431e-06 1.58871492e-05 ... 2.49160097e-05
+#   1.58871492e-05 9.92950431e-06]]
+\end{lstlisting} \pause \vspace{-20pt}
+    \item Transform to pivot table with \href{https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.pivot_table.html}{\texttt{pandas.pivot\_table()}} (see later)
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Working with data and matplotlib}
-\begin{itemize}
-    \item Read in and transform data
-\begin{lstlisting}[style=python]
-data_3d = np.genfromtxt(fname="example_data.csv",delimiter=",",skip_header=1)
-
-\end{lstlisting}
-\end{itemize}
-\end{frame}
-%=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
 \frametitle{3D surface}
@@ -396,10 +425,45 @@ plt.text(x=4.7, y = 0.5, s = r"A label $\theta$, $\beta$")
 plt.savefig(fname="lineplot.svg")
 plt.close() # plot stays in memory unless closed
 \end{lstlisting}
-        \item svg format can easily be edited using vector graphics software like Illustrator or Inkscape
+        \item Note that svg format can easily be edited using vector graphics software like Illustrator or Inkscape
     \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{Finer control over multipanel figures using \texttt{gridspec}}
+    \begin{lstlisting}[style=pythonsmall]
+import matplotlib.gridspec as gridspec
+
+# set up a 2 x 2 grid with lower row half the size of top row
+gs = gridspec.GridSpec(
+        nrows=2
+        ,ncols=2
+        ,height_ratios=[1,0.5]
+        ,width_ratios=[1,1])
+
+plt.figure()
+# first subplot top left corner, return Axes object for control over axes
+ax = plt.subplot(gs[0,0])
+ax.plot(...)
+
+# work with axes, e.g., remove x-tick labels
+ax.set_xticklabels([])
+ 
+# second subplot top right corner
+plt.subplot(gs[0,1])
+plt.plot(...)
+
+# third subplot bottom left corner
+plt.subplot(gs[1,0])
+plt.plot(...)
+ 
+# second subplot bottom right corner
+plt.subplot(gs[0,1])
+plt.plot(...)
+
+plt.show()
+    \end{lstlisting}
+\end{frame}
 %=============================================================================%
 %=============================================================================%
 % End of Document
