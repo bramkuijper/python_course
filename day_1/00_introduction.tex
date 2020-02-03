@@ -88,10 +88,9 @@ stringstyle=\color{deepgreen}
 \frame{\titlepage} 
 \begin{frame}{Acknowledgements}
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
-	\item The workshop is funded by Exeter's researcher-led initiative award 
+    \item This course is funded by UExeter's Institute for Data Science and Artificial Intelligence: \href{https://www.exeter.ac.uk/idsai/}{IDSAI}
 	\item Big thanks to \href{https://emps.exeter.ac.uk/mathematics/staff/jjv207}{JJ Valletta} as he has developed these lectures 
-    \item This course is supported by UExeter's Institute for Data Science and Artificial Intelligence: \href{https://www.exeter.ac.uk/idsai/}{IDSAI}
-    \item Big thanks to \href{http://emps.exeter.ac.uk/mathematics/staff/dp457}{Deepak Kumar Panda} for helping out today
+    \item Big thanks to \href{http://emps.exeter.ac.uk/mathematics/staff/dp457}{Deepak Kumar Panda} for helping out this afternoon 
 \end{itemize}
 \vfill
 \includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}
@@ -131,17 +130,17 @@ stringstyle=\color{deepgreen}
     \begin{itemize}
         \item Morning session, 0900 - 1100 DDM IT 3.037
     \begin{itemize}
-        \item 900 - 1030: How to run Python
-        \item 1030 - 1100: Data types
+        \item 0900 - 0930: How to run Python
+        \item 0930 - 1000: Data types
         \item 1000 - 1010: Break
-        \item 1010 - 1030: Data types practical
-        \item 1030 - 1100: Flow control
+        \item 1010 - 1100: Data types practical
     \end{itemize}
         \item Afternoon session, 1300 - 1600 DDM IT 1.033
     \begin{itemize}
-        \item 1300 - 1330: Flow control practical
-        \item 1330 - 1400: Functions
+        \item 1300 - 1300: Flow control
+        \item 1330 - 1400: Flow control practical
         \item 1400 - 1410: Break
+        \item 1410 - 1430: Flow control practical continued 
         \item 1410 - 1500: Functions practical
         \item 1410 - 1500: Functions practical
     \end{itemize}
@@ -290,6 +289,35 @@ Being able to run Python scripts without the Spyder IDE is particularly importan
 python3 my_script.py
 \end{lstlisting}
 \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Running standalone Python scripts without the IDE - II}
+By adding a so-called `shebang' to the top of a Python script, one 
+can run scripts as a standalone programme on Mac / Linux \vspace{3pt}
+   \pause 
+\begin{itemize}\addtolength{\itemsep}{0.05\baselineskip}
+    \item Add a shebang \texttt{\#!/usr/bin/env python3}, to the first line of the python script file, here called \texttt{my\_script.py}:
+\begin{lstlisting}[style=python]
+#!/usr/bin/env python3
+
+print("This Python script prints something.")
+...
+\end{lstlisting}
+    \pause 
+    \item Close the file and make it executable by typing in a terminal
+\begin{lstlisting}[style=bash]
+chmod +x my_script.py
+\end{lstlisting}
+    \pause 
+    \item Run the script by typing in a terminal
+\begin{lstlisting}[style=bash]
+./my_script.py
+This Python script prints something.
+\end{lstlisting}
 \end{itemize}
 
 \end{frame}

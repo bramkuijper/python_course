@@ -115,7 +115,7 @@ stringstyle=\color{deepgreen}
 		\item<4-> Be \textbf{consistent} in your naming convention (see \href{https://www.python.org/dev/peps/pep-0008/}{PEP 8})
 		\item<5-> Python is \textbf{case sensitive}; \texttt{genename} and \texttt{geneName} are different variables
         \item<6-> First character cannot contain a digit: $\texttt{1genename}$ raises an error
-		\item<7-> You cannot use Python \textbf{reserved words/keywords}
+        \item<7-> You cannot use Python's \href{https://docs.python.org/3/reference/lexical\_analysis.html\#keywords}{\textbf{reserved words/keywords}}
 		\item<8-> If you're an R user, \textbf{DO NOT} use `.' in your variable names i.e \texttt{gene.name} is not a valid variable name 
 	\end{itemize} 
 \end{itemize}
@@ -224,6 +224,23 @@ type(geneNames) # tuple
 \end{frame}
 
 \begin{frame}[fragile]
+    \frametitle{Initializing a single element tuple}
+    \begin{itemize}
+        \item For some (daft) reason one might need a single element tuple. One might try:
+\begin{lstlisting}[style=python]
+singleElementT = ("Irf1")
+type(singleElementT) # str, not a tuple!
+\end{lstlisting}
+        \pause
+        \item Parentheses around a single element are having no effect (they are used for grouping). To clarify it is a tuple, one needs a trailing comma:
+\begin{lstlisting}[style=python]
+singleElementT = ("Irf1",)
+type(singleElementT) # tuple
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
     \frametitle{Container data types (continued)}
 \begin{itemize}\addtolength{\itemsep}{-0.5\baselineskip}
 \item \textbf{Dictionary: \texttt{dict}} for a collection of values and unique labels 
@@ -283,7 +300,7 @@ geneList[0]="Irf2" # change first gene to Irf2
 geneTuple = ("Irf1", "Ccl3", "Il12rb1") # immutable
 geneTuple[0]="Irf2"
 TypeError: 'tuple' object does not support item assignment
-\end{lstlisting}  
+\end{lstlisting}
 
 \item<3-> However you can replace an \textbf{immutable} object with a new one 
 \begin{lstlisting}[style=python]
@@ -294,6 +311,61 @@ geneTuple = ("Irf2", "Ccl3", "Il12rb1")
 
 \end{itemize}
 
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Why ever use immutable objects?}
+
+    \textbf{Immutable} objects such as a \texttt{tuple} cannot be changed once assigned. Why use them?
+    \pause
+\begin{itemize}
+    \item It is faster: ideal if one only needs to iterate through a constant list of values
+        \pause
+    \item Assures that data is ``write-protected'' (i.e., elements cannot be changed after initialization)
+        \begin{itemize}
+            \item Handy when one wants to ensure certain values are not changed during the course of a simulation
+        \end{itemize}
+\end{itemize}
+
+\end{frame}
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Making copies of objects}
+    \begin{itemize} 
+        \item In Python, copies are made by \emph{reference}, not by \emph{value} 
+            \pause 
+        \item Let us copy an \texttt{int}:
+\begin{lstlisting}[style=python,belowskip=-0.8\baselineskip]
+a = 3
+b = a # copy of a
+\end{lstlisting} \pause
+        \item Both \texttt{a} and \texttt{b} then point to the same address in memory (say, \texttt{0x7f4b0133b388}), which holds \texttt{3}: 
+            \begin{figure}\centering%
+                \vspace{1ex}%
+                \includegraphics[width = 100mm]{variable_assignment1.pdf}
+            \end{figure}
+    \end{itemize} 
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Making copies of objects}
+    \begin{itemize} 
+        \item So if we assign a new value to \texttt{a}, will \texttt{b} change too? No:
+\begin{lstlisting}[style=python,belowskip=-0.8\baselineskip]
+a = 5
+print(a) # 5
+print(b) # 3
+\end{lstlisting} \pause
+        \item What happens is that \texttt{a} is assigned a reference to a new position (0x8a8960) containing \texttt{5}
+        \item While \texttt{b} keeps its reference to the old position (containing \texttt{3}) \pause
+            \begin{figure}\centering%
+                \includegraphics[width = 100mm]{variable_assignment2.pdf}
+            \end{figure}
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
@@ -316,7 +388,19 @@ motif.count("T") # 3
 # Use the lower method to convert to lower case
 motif.lower() # "aatcagtt"
 \end{lstlisting} 
+\end{frame}
 
+
+\begin{frame}[fragile]
+\frametitle{Methods of objects}
+
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+    \item A complete list of an object's methods can be found using the \texttt{\_\_dir\_\_()} function:
+\begin{lstlisting}[style=python]
+motif.__dir__()
+# long list of methods associated to 
+\end{lstlisting} 
+\end{itemize}
 \end{frame}
 
 %=============================================================================%
