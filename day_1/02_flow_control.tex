@@ -300,8 +300,17 @@ for i, gene in enumerate(geneNames):
 \begin{frame}[fragile]
 \frametitle{Iterate over a dict}
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
-        \item With \text{dict} there are both keys and values to iterate over
+        \item With a \texttt{dict} there are both keys and values to iterate over
+        \item Use the \texttt{dict.items()} method:
+\begin{lstlisting}[style=python]
+someDict = {"version": "3.7.3", "language":"Python", "attempts": 5}
 
+for key, value in someDict.items():
+    print(f"{key} points at {value}")
+    # version points at 3.7.3 etc"
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
 
 
 % End of Document
