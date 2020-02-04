@@ -277,15 +277,16 @@ iterable element but also its index
 \item<3-> Using a standard for loop:
 \begin{lstlisting}[style=python]
 i = 0 # index counter
+geneNames = ["a","b","c"]
 for gene in geneNames:
-    print("{0}. {1}\n".format(i+1, gene.upper()))
+    print(f"Gene {i+1} is {gene.upper()}")
     i = i + 1
 \end{lstlisting}
 
 \item<4-> Using \texttt{enumerate}:
 \begin{lstlisting}[style=python]
 for i, gene in enumerate(geneNames):
-    print("{0}. {1}\n".format(i+1, gene.upper()))
+    print(f"Gene {i+1} is {gene.upper()}")
 \end{lstlisting}
 
 \end{enumerate}
@@ -295,6 +296,14 @@ for i, gene in enumerate(geneNames):
 
 %=============================================================================%
 %=============================================================================%
+
+\begin{frame}[fragile]
+\frametitle{Iterate over a dict}
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+        \item With \text{dict} there are both keys and values to iterate over
+
+
+
 % End of Document
 %=============================================================================%
 %=============================================================================%

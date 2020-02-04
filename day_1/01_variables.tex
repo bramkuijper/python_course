@@ -345,11 +345,13 @@ b = a # copy of a
         \item Both \texttt{a} and \texttt{b} then point to the same address in memory (say, \texttt{0x7f4b0133b388}), which holds \texttt{3}: 
             \begin{figure}\centering%
                 \vspace{1ex}%
-                \includegraphics[width = 100mm]{variable_assignment1.pdf}
+                \includegraphics[width = 75mm]{variable_assignment1.pdf}
             \end{figure}
     \end{itemize} 
 
 \end{frame}
+%=============================================================================%
+%=============================================================================%
 
 \begin{frame}[fragile]
 \frametitle{Making copies of objects}
@@ -360,13 +362,66 @@ a = 5
 print(a) # 5
 print(b) # 3
 \end{lstlisting} \pause
-        \item What happens is that \texttt{a} is assigned a reference to a new position (0x8a8960) containing \texttt{5}
+        \item What happens is that \texttt{a} is assigned a reference to a new position (\text{0x8a8960}) containing \texttt{5}
         \item While \texttt{b} keeps its reference to the old position (containing \texttt{3}) \pause
             \begin{figure}\centering%
-                \includegraphics[width = 100mm]{variable_assignment2.pdf}
+                \includegraphics[width = 75mm]{variable_assignment2.pdf}
             \end{figure}
     \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Making copies of objects: lists}
+    \begin{itemize} 
+        \item What happens when making copies of objects which themselves contain objects (as happens in \texttt{list}, \texttt{dict})?
+\begin{lstlisting}[style=python,belowskip=-0.8\baselineskip]
+a = [2,8] # list with two ints
+b = a # copy to the reference of that list
+\end{lstlisting} \pause
+        \item Now our reference layout looks like this:
+            \begin{figure}\centering%
+                \includegraphics[width = 75mm]{variable_assignment3.pdf}
+            \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Making copies of objects: lists}
+    \begin{itemize} 
+        \item If we reassign a different variable to a list element, both \texttt{a} and \texttt{b} are affected! 
+\begin{lstlisting}[style=python,belowskip=-0.8\baselineskip]
+a[1] = 5
+print(a) # [ 2, 5]
+print(b) # [ 2, 5]
+\end{lstlisting} \pause
+        \item Both \texttt{b} and \texttt{a} still point to the same \texttt{list} object
+        \item Within the list, however, references have now changed:
+            \begin{figure}\centering%
+                \includegraphics[width = 75mm]{variable_assignment4.pdf}
+            \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Making copies of objects: lists}
+    \begin{itemize}
+        \item \textbf{Bottom line}: be careful when using copies of mutable objects like \texttt{list} or \texttt{dict}
+        \item If you want to change elements only of the copied variable or not the original (but not both), make a \emph{deep} copy:
+\begin{lstlisting}[style=python,belowskip=-0.8\baselineskip]
+a = [1,2]
+b = a[:] # go through all elements of a and assign to b |\pause |
+a[0] = 5
+print(a) # [5,2]
+print(b) # [1,2]: deep copy unaffected | \pause |
+
+# alternatively, use the copy module
+import copy
+
+b = copy.deepcopy(a)
+\end{lstlisting} 
+    \end{itemize}
+\end{frame}
+
 
 %=============================================================================%
 %=============================================================================%
