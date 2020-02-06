@@ -298,7 +298,7 @@ for i, gene in enumerate(geneNames):
 %=============================================================================%
 
 \begin{frame}[fragile]
-\frametitle{Iterate over a dict}
+\frametitle{Iterate over a dictionary}
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
         \item With a \texttt{dict} there are both keys and values to iterate over
         \item Use the \texttt{dict.items()} method:
@@ -311,6 +311,52 @@ for key, value in someDict.items():
 \end{lstlisting}
     \end{itemize}
 \end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Quitting loops using \texttt{break}}
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+        \item With a \texttt{break} statement you can end a \texttt{for} or \texttt{while} loop
+        \item Everything below the \texttt{break} statement will not be executed
+\begin{lstlisting}[style=python]
+for key, value in someDict.items():
+    
+    # end the loop when
+    # a certain condition is met
+    if key == "language":
+        break
+
+    print(f"{key} points at {value}")
+
+# output:
+# version points at 3.7.3
+\end{lstlisting}
+        \item There is more to \texttt{break} clauses than fits this course: have a look at \href{https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops}{\texttt{for...else}} clauses if you are interested.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Skipping items using \texttt{continue}}
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+        \item With a \texttt{continue} statement you can have the loop move on to the next iteration:
+        \item Everything below the \texttt{continue} will not be executed during the current iteration of the loop
+\begin{lstlisting}[style=python]
+for key, value in someDict.items():
+    # continue the loop to the next
+    # iteration if a certain condition is met
+    if key == "language":
+        continue
+
+    print(f"{key} points at {value}")
+
+
+# output (item involving the "language" label not printed due to the continue clause)
+# version points at 3.7.3
+# attempts points at 5
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
 
 
 % End of Document
