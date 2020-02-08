@@ -180,14 +180,15 @@ while index != -1: # -1 implies no match
 \begin{itemize}[leftmargin=*]
 \item<1->Sum two numbers
 \begin{lstlisting}[style=python]
+# define the function
 def mysum(x, y):
     return x + y
 
-# Call function
+# call the function
 out = mysum(10, 2) # out = 12
 \end{lstlisting}
-
-\item<2->Sum and divide two numbers
+    \item<2->As you see, functions are first \emph{defined} using \texttt{def} and then \emph{called}
+\item<3->Sum and divide two numbers: return multiple values
 \begin{lstlisting}[style=python]
 def sum_and_divide(x, y):
     return x+y, x/y
@@ -246,6 +247,8 @@ Python will return an object of type \texttt{None}
 \end{itemize}
 
 \end{frame}
+
+
 
 %=============================================================================%
 %=============================================================================%
@@ -369,6 +372,57 @@ indicesDefault = find_motif(DNA)
 
 \end{frame}
 
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Parameters and local variable scope}
+\begin{itemize}
+    \item Say, we define the following function
+\begin{lstlisting}[style=python]
+def some_function(x):  
+    x += 1 # note: function returns nothing | \pause |
+
+a = 5 
+some_function(x=a) # call the function
+print(a) # still 5 | \pause |
+\end{lstlisting}
+    \item The parameter \texttt{x} only exists \emph{locally}: within the function body \pause
+    \item When the function is called, \texttt{x} is assigned the reference to \texttt{a} 
+    \item When \texttt{x} gets a new value, it gets a new reference to that value
+    \item When the function \texttt{some\_function()} ends, all local variables are deleted \pause
+\end{itemize}
+\end{frame}
+
+    \begin{frame}[fragile]
+\frametitle{Parameters and local variable scope}
+        \begin{itemize}
+            \item What happens with variables during function calls?
+        \begin{figure}\centering%
+            \vspace{1ex}%
+            \includegraphics[width = 75mm]{functionParameters.pdf}
+        \end{figure}
+    \end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+\frametitle{Parameters and local variable scope: nested objects}
+\begin{itemize}
+    \item Let's have a function that changes list elements. What happens now?
+\begin{lstlisting}[style=python]
+def change_list_elmt(x):  
+    x[1] = 5 # note: function returns nothing
+
+a = [2,8]
+change_list_elmt(a)
+print(a) # [2,5]
+\end{lstlisting}
+   \item \texttt{x} and \texttt{a} have the same reference to the list
+    \end{itemize}
+\end{frame}
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]

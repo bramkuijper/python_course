@@ -300,64 +300,98 @@ for i, gene in enumerate(geneNames):
 \begin{frame}[fragile]
 \frametitle{Iterate over a dictionary}
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
-        \item With a \texttt{dict} there are both keys and values to iterate over
-        \item Use the \texttt{dict.items()} method:
+        \item In case of a \href{https://docs.python.org/3/library/stdtypes.html#dict}{\texttt{dict}ionary} there are both keys and values to iterate over
+        \item Use the \href{https://docs.python.org/3/library/stdtypes.html#dict.items}{\texttt{items()}} method to iterate over list value pairs:
 \begin{lstlisting}[style=python]
-someDict = {"version": "3.7.3", "language":"Python", "attempts": 5}
+someDictionary = {"a" : "value1", "b" : "value2", "c" : "value3"}
 
-for key, value in someDict.items():
+for key, value in someDictionary.items():
     print(f"{key} points at {value}")
-    # version points at 3.7.3 etc"
+
+# prints:
+# a points at value1
+# b points at value2
+# c points at value3
 \end{lstlisting}
     \end{itemize}
 \end{frame}
 
+%=============================================================================%
+%=============================================================================%
 
 \begin{frame}[fragile]
 \frametitle{Quitting loops using \texttt{break}}
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
-        \item With a \texttt{break} statement you can end a \texttt{for} or \texttt{while} loop
-        \item Everything below the \texttt{break} statement will not be executed
+        \item With a \href{https://docs.python.org/3/tutorial/controlflow.html?highlight=break#break-and-continue-statements-and-else-clauses-on-loops}{\texttt{break}} statement you can end a \texttt{for} or \texttt{while} loop
+        \item Statements within the loop that occur after a \texttt{break} occurs will not be executed and the loop terminates
 \begin{lstlisting}[style=python]
-for key, value in someDict.items():
-    
-    # end the loop when
+for key, value in someDictionary.items():
+    # end the loop immediately when
     # a certain condition is met
-    if key == "language":
-        break
+    if key == "b":
+        break 
 
-    print(f"{key} points at {value}")
+    # won't be executed when condition for break is met
+    print(f"{key} points at {value}") | \pause |
 
-# output:
-# version points at 3.7.3
+# prints:
+# a points at value1
 \end{lstlisting}
         \item There is more to \texttt{break} clauses than fits this course: have a look at \href{https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops}{\texttt{for...else}} clauses if you are interested.
     \end{itemize}
 \end{frame}
 
+%=============================================================================%
+%=============================================================================%
+
 \begin{frame}[fragile]
-    \frametitle{Skipping items using \texttt{continue}}
+    \frametitle{Go to the next iteration with \texttt{continue}}
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
-        \item With a \texttt{continue} statement you can have the loop move on to the next iteration:
-        \item Everything below the \texttt{continue} will not be executed during the current iteration of the loop
+        \item A \href{https://docs.python.org/3/tutorial/controlflow.html?highlight=break#break-and-continue-statements-and-else-clauses-on-loops}{continue} statement makes the loop move on to the next iteration (by moving on to execute the statement at the top of the loop)
+        \item Statements within the loop that occur after a \texttt{continue} will not be executed \emph{during the current iteration of the loop}
 \begin{lstlisting}[style=python]
-for key, value in someDict.items():
-    # continue the loop to the next
-    # iteration if a certain condition is met
-    if key == "language":
-        continue
+for key, value in someDictionary.items():
+    # continue to the next iteration 
+    # when a certain condition is met
+    if key == "b":
+        continue # go to for... in line 1
 
     print(f"{key} points at {value}")
 
 
-# output (item involving the "language" label not printed due to the continue clause)
-# version points at 3.7.3
-# attempts points at 5
+# output:
+# a points at value1
+# c points at value3
+# (the item with the "language" label is not printed)
 \end{lstlisting}
     \end{itemize}
 \end{frame}
 
+%=============================================================================%
+%=============================================================================%
 
+\begin{frame}[fragile]
+    \frametitle{Nested loops}
+    \begin{itemize}
+        \item Looping through multidimensional objects requires nested loops
+\begin{lstlisting}[style=python]
+# 2-dimensional list with 2 rows, 3 columns
+mlist =  [[1, 2, 3], [4, 5, 6]] | \pause |
+
+# access all individual elements through nested loop:
+# loop over rows with
+for row in mlist:
+    # loop over items in row
+    for col_item in row:
+        print(col_item)
+
+# print:
+# 1
+# 2
+# etc
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
 
 % End of Document
 %=============================================================================%
