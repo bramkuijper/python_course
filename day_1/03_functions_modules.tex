@@ -180,14 +180,23 @@ while index != -1: # -1 implies no match
 \begin{itemize}[leftmargin=*]
 \item<1->Sum two numbers
 \begin{lstlisting}[style=python]
+# define the function
 def mysum(x, y):
     return x + y
 
-# Call function
+# call the function
 out = mysum(10, 2) # out = 12
 \end{lstlisting}
+    \item<2->Functions are first \emph{defined} using \texttt{def} and then \emph{called}
+    \item<3->Functions can have one or more \emph{parameters}; in this case \texttt{x} and \texttt{y} 
+    \item<4->Functions return a value (here \texttt{x + y}) to the ``nonlocal scope'' (aka the surrounding code calling the function)
+\end{itemize}
+\end{frame}
 
-\item<2->Sum and divide two numbers
+\begin{frame}[fragile]
+\frametitle{Returning of multiple values}
+\begin{itemize}
+    \item<1->Sum and divide two numbers: return multiple values
 \begin{lstlisting}[style=python]
 def sum_and_divide(x, y):
     return x+y, x/y
@@ -195,7 +204,6 @@ def sum_and_divide(x, y):
 # Call function
 out1, out2 = sum_and_divide(10, 2) # out1 = 12, out2 = 5
 \end{lstlisting}
-
 \end{itemize}
 \end{frame}
 
@@ -246,6 +254,8 @@ Python will return an object of type \texttt{None}
 \end{itemize}
 
 \end{frame}
+
+
 
 %=============================================================================%
 %=============================================================================%
@@ -347,27 +357,82 @@ def find_motif(DNA, motif="gaatca"):
 # Example
 motif1 = "ggatcc" # sequence to search for
 motif2 = "aacctg" # another sequence to search for
-DNA = "acgtgtaaccaaggatccacccgttttaaacctgtgtgggatcc"
+focalDNA = "acgtgtaaccaaggatccacccgttttaaacctgtgtgggatcc"
 \end{lstlisting}
 \vspace{-0.5cm}
 \item<1-> By argument order/position
 \begin{lstlisting}[style=python]
-indices1 = find_motif(DNA, motif1)
+indices1 = find_motif(focalDNA, motif1)
 \end{lstlisting}
 
 \item<2-> By argument keyword (preferred)
 \begin{lstlisting}[style=python]
-indices2 = find_motif(motif=motif2, DNA=DNA)
+indices2 = find_motif(motif=motif2, DNA=focalDNA)
 \end{lstlisting}
 
 \item<3-> Using default arguments
 \begin{lstlisting}[style=python]
-indicesDefault = find_motif(DNA)
+indicesDefault = find_motif(focalDNA)
+# or better:
+indicesDefault = find_motif(DNA=focalDNA)
 \end{lstlisting}
 
 \end{enumerate}
 
 \end{frame}
+
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Parameters and local variable scope}
+\begin{itemize}
+    \item Say, we define the following function
+\begin{lstlisting}[style=python]
+def some_function(x):  
+    x += 1 # note: function returns nothing | \pause |
+
+a = 5 
+some_function(x=a) # call the function
+print(a) # still 5 | \pause |
+\end{lstlisting}
+    \item The parameter \texttt{x} only exists within the function body (i.e., \emph{locally})  \pause
+    \item When \texttt{some\_function()} is called, \texttt{x} is assigned the reference to the value of \texttt{a} 
+    \item When \texttt{x} gets a new value, it gets a new reference to that new value
+    \item When the function \texttt{some\_function()} ends, all local variables are deleted \pause
+\end{itemize}
+\end{frame}
+
+    \begin{frame}[fragile]
+\frametitle{Parameters and local variable scope}
+        \begin{itemize}
+            \item In graphics: what happens with variables during function calls
+        \begin{figure}\centering%
+            \vspace{1ex}%
+            \includegraphics[width = 75mm]{functionParameters.pdf}
+        \end{figure}
+    \end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+\frametitle{Parameters and local variable scope}
+    \begin{itemize}
+        \item Bottom line: for single-dimensional variables, references to values are destroyed when functions end \pause
+        \item<2->Updating values used outside the function (i.e., ``nonlocal'' values) should be done through the \texttt{return} statement: \pause
+    \end{itemize}
+\begin{lstlisting}[style=python]
+def some_function(x):  
+    x += 1 
+    return x
+
+a = 5 
+a = some_function(x=a) # call the function
+print(a) # 6
+\end{lstlisting}
+\end{frame}
+
 
 %=============================================================================%
 %=============================================================================%
