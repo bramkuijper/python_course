@@ -13,7 +13,7 @@ def find_motif(DNA, motif="gaatca"):
     DNA : str
         A string containing the DNA sequence to be searched
     motif : str, optional
-        The motif to be found in the DNA sequence
+        The motif to be found in the DNA 
 
     Returns
     -------
@@ -48,6 +48,41 @@ a = 5
 a = some_function(a)
 print(a)
 
+# %% 2-d list function BETA
+
+sequences_2d = [["ccggattc","ggggta","ggc"],["aat","agcgaccc"],["ggccccaaa"]]
+
+def append_seq_does_nothing(list2d, z="ggtttaa"):
+    """
+    
+
+    Parameters
+    ----------
+    list2d : list
+        two-dimensional list with sequences.
+    z : str, optional
+        sequence to add to the front of each sequence. The default is "ggtttaa".
+
+    Returns
+    -------
+    two dimensional list with updated sequences.
+
+    """
+    
+    for row_i, rowvals in enumerate(list2d):
+        
+       for col_j, colval in enumerate(rowvals):
+                      
+            colval = z + colval
+                        
+    return(list2d)
+            
+            
+sequences_2d_new = append_seq_does_nothing(sequences_2d)
+print(sequences_2d)
+print(sequences_2d_new)
+
+
 # %% 2-d list function
 
 sequences_2d = [["ccggattc","ggggta","ggc"],["aat","agcgaccc"],["ggccccaaa"]]
@@ -56,13 +91,13 @@ def add_seq_to_2d_seqs(list2d, z="ggtttaaa"):
     
     newlist = []
     
-    for row_i, rowvals in enumerate(list2d):
+    for row in list2d:
         
         newrow = []
         
-        for col_j, colval in enumerate(rowvals):
+        for col in row:
                       
-            newrow.append("ggtttaaa" + colval)
+            newrow.append("ggtttaaa" + col)
             
         newlist.append(newrow)
             
