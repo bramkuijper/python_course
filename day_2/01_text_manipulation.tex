@@ -342,7 +342,7 @@ import re | \pause |
 s = "23.01.1980,8.9.1990,15-03-2019" | \pause |
 
 # regular expression (given as a r"" [raw literal] string)
-all_dates = re.findall(r"(\d{1,2})[-\.](\d{1,2})[-\.](\d{4})",s) | \pause |
+all_dates = re.findall(r"(\d{1,2})[-.](\d{1,2})[-.](\d{4})",s) | \pause |
 
 # print the result
 for date in all_dates:
@@ -366,7 +366,7 @@ import re  | \pause |
 str_to_match = "Factors: 1foo, 2foo, foo, 4bar" | \pause |
 # regex that matches '1foo', '2foo' etc but not 'foo' | \pause |
 regex = r"\dfoo" | \pause |  
-re.findall(regex, str_to_match) # ['1foo','2foo']
+print(re.findall(regex, str_to_match)) # ['1foo','2foo']
 \end{lstlisting}
     \end{itemize}
 \end{frame}
@@ -383,49 +383,9 @@ re.findall(regex, str_to_match) # ['1foo','2foo']
         \end{itemize}
 \end{frame}
 
+
 %=============================================================================%
 %=============================================================================%
-
-\begin{frame}[fragile]
-\frametitle{Regular expressions: functions}
-    \begin{itemize}
-        \item \href{https://docs.python.org/3.7/library/re.html#re.compile}{\texttt{re.compile()}} compiles a regular expression before applying it. Speeds things up when same regex is used a lot of times \pause
-        \item \href{https://docs.python.org/3.7/library/re.html#re.findall}{\texttt{re.findall()}} matches all occurrences of a pattern \pause
-        \item \href{https://docs.python.org/3.7/library/re.html#re.search}{\texttt{re.search()}} matches the first occurrence of a pattern
-\begin{lstlisting}[style=python,belowskip=-1 \baselineskip]
-str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
-# pattern that matches '1foo', '2foo' etc but not 'foo'
-regex = r"\dfoo" # regex | \pause |  
-m = re.search(regex, str_to_match) # returns a Match object  | \pause |
-
-m.group(0) # '1foo'
-
-regex = r"\dbar" # another regex which does not match | \pause |  
-re.search(regex, str_to_match) # None
-\end{lstlisting}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Regular expressions: functions II}
-    \begin{itemize}
-        \item \href{https://docs.python.org/3.7/library/re.html#re.sub}{\texttt{re.sub()}} replaces occurrences of patterns in a string \pause
-\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
-str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
-# pattern that matches '1foo', '2foo' etc but not 'foo'
-# and remembers the digit using a group () 
-regex = r"(\d)foo" # regex | \pause |  
-# replace foo by bar but keep the digit
-replacement = r"\1bar" # regex | \pause |  
-re.sub(regex, replacement, str_to_match) # Factor levels are 1bar, 2bar and foo
-\end{lstlisting} \pause
-        \item Everything within \texttt{()} (a group) is stored in memory \pause
-        \item Group contents can be recalled in the replacement, using \texttt{\textbackslash 1},\texttt{\textbackslash 2},\texttt{\textbackslash 3}, etc
-    \end{itemize}
-\end{frame}
-%=============================================================================%
-%=============================================================================%
-
 \begin{frame}[fragile]
     \frametitle{Regular expressions: syntax}
     
@@ -551,6 +511,50 @@ re.findall(str1,regex) # ['60', '50', '30', '00', '50', '00']
 %=============================================================================%
 
 \begin{frame}[fragile]
+\frametitle{Regular expressions: functions}
+    \begin{itemize}
+        \item \href{https://docs.python.org/3.7/library/re.html#re.compile}{\texttt{re.compile()}} compiles a regular expression before applying it. Speeds things up when same regex is used a lot of times \pause
+        \item \href{https://docs.python.org/3.7/library/re.html#re.findall}{\texttt{re.findall()}} matches all occurrences of a pattern \pause
+        \item \href{https://docs.python.org/3.7/library/re.html#re.search}{\texttt{re.search()}} matches the first occurrence of a pattern
+\begin{lstlisting}[style=python,belowskip=-1 \baselineskip]
+str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
+# pattern that matches '1foo', '2foo' etc but not 'foo'
+regex = r"\dfoo" # regex | \pause |  
+m = re.search(regex, str_to_match) # returns a Match object  | \pause |
+
+m.group(0) # '1foo'
+
+regex = r"\dbar" # another regex which does not match | \pause |  
+re.search(regex, str_to_match) # None
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Regular expressions: functions II}
+    \begin{itemize}
+        \item \href{https://docs.python.org/3.7/library/re.html#re.sub}{\texttt{re.sub()}} replaces occurrences of patterns in a string \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
+# pattern that matches '1foo', '2foo' etc but not 'foo'
+# and remembers the digit using a group () 
+regex = r"(\d)foo" # regex | \pause |  
+# replace foo by bar but keep the digit
+replacement = r"\1bar" # regex | \pause |  
+re.sub(regex, replacement, str_to_match) # Factor levels are 1bar, 2bar and foo
+\end{lstlisting} \pause
+        \item Everything within \texttt{()} (a group) is stored in memory \pause
+        \item Group contents can be recalled in the replacement, using \texttt{\textbackslash 1},\texttt{\textbackslash 2},\texttt{\textbackslash 3}, etc
+    \end{itemize}
+\end{frame}
+%=============================================================================%
+%=============================================================================%
+
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
     \frametitle{Regex exercise}
     \begin{itemize}
         \item Use \url{https://regex101.com/} to write dates in \texttt{"23.01.1980,29-03-2019"} as \texttt{"1980-01-23,2019-03-29"} \pause
@@ -558,7 +562,7 @@ re.findall(str1,regex) # ['60', '50', '30', '00', '50', '00']
         \item In Python, that is:
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 two_dates = "23.01.1980,29-03-2019" 
-date_regex = r"(\d{1,2})[\.-](\d{1,2})[\.-](\d{2,4})"
+date_regex = r"(\d{1,2})[.-](\d{1,2})[.-](\d{2,4})"
 date_substitution = r"\3-\2-\1"
 re.sub(date_regex, date_substitution, two_dates)
 # 23-01-1980,29-3-2019 
