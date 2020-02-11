@@ -107,3 +107,30 @@ def add_seq_to_2d_seqs(list2d, z="ggtttaaa"):
 sequences_2d_new = add_seq_to_2d_seqs(sequences_2d)
 print(sequences_2d)
 print(sequences_2d_new)
+
+
+# %% ascii code
+import re
+a = "asdkjkldfjkad"
+
+m_obj = re.search("s",a)
+
+print(m_obj)
+
+# %%
+
+def func_one():
+    
+    print("this function is func_one")
+    
+    return(False)
+
+def func_two():
+    
+    print("this function is func_two")
+    
+    return(True)
+
+
+if func_two() or func_two():
+    print("done")
