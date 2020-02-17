@@ -79,7 +79,7 @@ jupyter nbconvert --execute --to html $practical_02.ipynb
 jupyter nbconvert --execute --to html $practical_02_ans.ipynb
 
 cp $practical_02.html $website_repo/$practical_02_dest.html
-#cp $practical_02_ans.html $website_repo/$practical_02_ans_dest.html
+cp $practical_02_ans.html $website_repo/$practical_02_ans_dest.html
 
 # practical 03
 jupyter nbconvert --execute --to html $practical_03.ipynb
