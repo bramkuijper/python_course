@@ -529,9 +529,9 @@ re.sub(pattern=date_regex, repl=date_substitution, string=two_dates)
 \begin{frame}[fragile]
     \frametitle{Another regex exercise}
     \begin{itemize}
-        \item Use \url{https://regex101.com/} to match the words 'pit', 'spot', 'spate', but not 'pt', 'Pot', 'peat', 'part' | \pause |
-\begin{lstlisting} 
-    regex = r"s?p(i|o|a)te?"
+        \item Use \url{https://regex101.com/} to match the words 'pit', 'spot', 'spate', but not 'pt', 'Pot', 'peat', 'part' \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+    regex = r"s?p(i|$\textbar$|o|$\textbar$|a)te?"
 \end{lstlisting} 
     \end{itemize}
 \end{frame}
