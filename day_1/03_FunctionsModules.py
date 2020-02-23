@@ -134,3 +134,58 @@ def func_two():
 
 if func_two() or func_two():
     print("done")
+    
+#%% motif
+    
+    
+def find_motif(DNA, motif="gaatca"):
+    """
+    Finds a motif within a DNA sequence and returns a list of start indices
+    
+    Parameters
+    ----------
+    DNA : str
+        A string containing the DNA sequence to be searched
+    motif : str, optional
+        The motif to be found in the DNA sequence
+
+    Returns
+    -------
+    A list of indices highlighting the start of the motif in the DNA sequence
+
+    """
+    index = 0 # set initial index at the start of the string
+    indices = [] # initialize empty list to store any successful finds of motifs
+    print(DNA)
+    while index != -1:  # go on as long as DNA.find does not return a -1 (i.e., no motifs in remainder of DNA)
+        index = DNA.find(motif, index) # find the motif
+        
+        
+        if index != -1: # successful find of motif 
+            indices.append(index) # add position at which motif was found to list of starting indices 
+            index += 1 # update index used by DNA.find() to the next position, otherwise same p
+    
+    return(indices)
+
+
+DNAstr = "aaaaccccggggtaaaa"
+print(find_motif(DNA=DNAstr,motif="ggggta"))
+
+# %% check someting
+
+def some_func_wah():
+    """
+    
+
+    Returns
+    -------
+    None.
+
+    """
+
+    Returns
+    -------
+    None.
+
+    """
+
