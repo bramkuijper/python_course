@@ -171,7 +171,7 @@ literate={ö}{{\"o}}1
         \item Nearly every program will \href{https://docs.python.org/3/tutorial/inputoutput.html\#reading-and-writing-files}{read and write files} (also called file IO; file input and output) \pause 
         \item The file IO workhorse is the \href{https://docs.python.org/3/library/functions.html\#open}{\texttt{open()}} function, which opens a file and returns a file object \pause
         \item Next, there are several utilities to find out information about files and directories
-            contained in modules like \href{https://docs.python.org/3/library/os.html?highlight=os\#module-os}{\texttt{os}}, \href{https://docs.python.org/3/library/os.path.html?highlight=os%20path\#module-os.path}{\texttt{os.path}} and \href{https://docs.python.org/3/library/shutil.html?highlight=shutil\#module-shutil}{\texttt{shutil}} 
+            contained in modules like \href{https://docs.python.org/3/library/os.html?highlight=os\#module-os}{\texttt{os}}, \href{https://docs.python.org/3/library/os.path.html}{\texttt{os.path}} and \href{https://docs.python.org/3/library/shutil.html#module-shutil}{\texttt{shutil}} 
     \end{itemize}
 \end{frame}
 
@@ -181,19 +181,19 @@ literate={ö}{{\"o}}1
 \begin{frame}[fragile]
     \frametitle{Using \texttt{open()}: writing files}
 \begin{itemize}
-    \item open a file for writing, using the \href{https://docs.python.org/3/library/functions.html\#open}{\texttt{open()}} command \pause
+    \item Open a file for writing, using the \href{https://docs.python.org/3/library/functions.html\#open}{\texttt{open()}} command \pause
 \begin{lstlisting}[style=python]
-# the mode="w" keyword argument reflects that we will write to a file
+# mode="w" keyword argument: we write to a file
 # any existing contents will be overwritten
-file_obj = open(file="hfile.txt",mode="w") | \pause |
+file_obj = open(file="myfile.txt",mode="w") | \pause |
 
 # write a string to the file
 file_obj.write("Hello world!") | \pause |
 
 # always close the file
-file_obj.close()
+file_obj.close() | \pause |
 \end{lstlisting}
-    \item The above listing is bad practice, however: Any error in lines 4 - 8, \texttt{file\_obj} causes python to quits before \texttt{file\_obj.close()} is called
+    \item The above listing is bad practice, however: any error in lines 4 - 8 will cause python to quit before \texttt{file\_obj.close()} is called, leaving \texttt{file\_obj} open
 \end{itemize}
 \end{frame}
 
@@ -203,22 +203,24 @@ file_obj.close()
     \frametitle{Using \texttt{open()}: writing files II}
 \begin{itemize}
     \item Instead, we need to use a \texttt{with} statement \pause
-\begin{lstlisting}[style=python]
-with open(file="hfile.txt",mode="w") as file_obj:| \pause |
+\begin{lstlisting}[style=python,belowskip=-0.8 \baselineskip]
+with open(file="myfile.txt",mode="w") as file_obj:| \pause |
     file_obj.write("Hello world!") | \pause |
 \end{lstlisting}
-    \item Here, the variable following \texttt{as} (here: \texttt{file\_obj}) will be automatically closed once the statement is finished (normally) or is ended (in case of an error)
-    \item Either way, \texttt{file\_obj} will not remain open
+    \item Line 1: the variable \texttt{file\_obj} gets assigned the return value of \texttt{open()} \pause 
+    \item Line 2: we perform operations on \texttt{file\_obj} \pause
+    \item In case line 2 finishes or ends in an error, a hidden \href{https://docs.python.org/3/reference/datamodel.html#object.__exit__}{\texttt{\_\_exit()\_\_}} function is called on \texttt{file\_obj}, closing it \pause
+    \item Bottom line: when using \texttt{with}, \texttt{file\_obj} will not remain open
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Reading files, using \texttt{open()}}
 \begin{itemize}
-    \item open a file for reading, using the \href{https://docs.python.org/3/library/io.html#io.TextIOBase.read}{\texttt{read()}} command \pause
+    \item Open a file for reading, using the \href{https://docs.python.org/3/library/io.html#io.TextIOBase.read}{\texttt{read()}} command \pause
 \begin{lstlisting}[style=python]
-# the mode="r" keyword reflects that we read from a file
-with open(file="hfile.txt",mode="r") as file_obj:
+# mode="r" keyword argument: we read from a file
+with open(file="myfile.txt",mode="r") as file_obj:
     # get the file contents as a string
     file_contents = file_obj.read() | \pause |
 
@@ -228,14 +230,10 @@ print(file_contents) # Hello World!
 \end{itemize}
 \end{frame}
 
-%=============================================================================%
-%=============================================================================%
-%    \item File objects have various member functions such as \href{https://docs.python.org/3/library/io.html#io.TextIOBase.read}{\texttt{read()}, \href{https://docs.python.org/3/library/io.html#io.TextIOBase.write}{\texttt{write()} and \href{https://docs.python.org/3/library/io.html#io.IOBase.close}{close()}
-
 \begin{frame}[fragile]
     \frametitle{Other modes of the \texttt{open()} function}
 \begin{itemize}
-    \item Different file opening modes can be specified by mode keyword of the {\texttt{open()}} function \pause 
+    \item Different file opening modes can be specified by mode keyword of the \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} function \pause 
 \begin{center}
     \rowcolors{1}{}{lightgray} %-- this indicates the change in odd and pair rows
     \begin{tabular}{|l|l|}\hline
@@ -243,7 +241,7 @@ print(file_contents) # Hello World!
         \texttt{"w"}
     & Write to a file, file will be truncated first \\
         \texttt{"r"} & Reading from a file \\
-        \texttt{"r+"} & Reading and writing to a file \\
+        \texttt{"r+"} & Reading and writing to a file (no truncation) \\
         \texttt{"a"} & Append to a file \\
         \texttt{"a+"} & Read from and write (by appending) to a file \\
         \texttt{"x"} & Exclusive creation, fails if file exists \\ \hline
@@ -255,49 +253,65 @@ print(file_contents) # Hello World!
 \begin{frame}[fragile]
     \frametitle{Appending to a file}
 \begin{itemize}
-    \item Append text to a previously opened file using \texttt{mode="a+"}: 
+    \item Append text to a previously opened file using \href{https://docs.python.org/3/library/functions.html#open}{\texttt{mode="a+"}}: 
 \begin{lstlisting}[style=python]
 # first write something to a new file
-with open(file="myfile",mode="w") as myfile: | \pause |
-    myfile.write("I wrote this to a file!")
+with open(file="myfile.txt",mode="w") as file_obj: | \pause |
+    file_obj.write("I wrote this to a file!")
 
-with open(file="myfile",mode="a+") as myfile: | \pause |
-    myfile.write("\nAnd now I also wrote this!")
+with open(file="myfile",mode="a+") as file_obj: | \pause |
+    file_obj.write("\nAnd now I also wrote this!")
 
     # get the file contents as a string
-    file_contents = myfile.read() | \pause |
+    file_contents = file_obj.read() | \pause |
 
 # process file output
 print(file_contents) # Nothing!
 \end{lstlisting} \pause 
-    \item No output because the internal file pointer used by \texttt{file.read()} is at the end of the file!
+    \item No output because the internal file pointer used by \href{https://docs.python.org/3/library/io.html#io.TextIOBase.read}{\texttt{file.read()}} is at the end of the file!
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Position of file pointer}
+            \begin{figure}\centering%
+                \vspace{1ex}%
+                \includegraphics[width = 75mm]{file_pointer1.pdf}
+            \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Position of file pointer}
+            \begin{figure}\centering%
+                \vspace{1ex}%
+                \includegraphics[width = 75mm]{file_pointer2.pdf}
+            \end{figure}
+\end{frame}
+
 
 \begin{frame}[fragile]
     \frametitle{Appending to a file}
 \begin{itemize}
-    \item Solution: use the \texttt{file.seek()} command to change the internal file pointer position \pause 
+    \item Solution: use the \href{https://docs.python.org/3/library/io.html#io.TextIOBase.seek}{\texttt{file.seek()}} command to change the internal file pointer position \pause 
 \begin{lstlisting}[style=python]
-# first write something to a new file
-myfile = open("myfile","w") | \pause |
-myfile.write("I wrote this to a file!")
-myfile.close()
+# first write something to a new file:
+with open(file="myfile.txt",mode="w") as file_obj: | \pause |
+    file_obj.write("I wrote this to a file!")
 
-myfile = open("myfile","a+") | \pause |
-myfile.write("\nAnd now I also wrote this!")
+# open file again, now to append and read:
+with open(file="myfile.txt",mode="a+") as file_obj: | \pause |
+    file_obj.write("\nAnd now I also wrote this!")
 
-# move the file pointer to the 0th byte of the file
-myfile.seek(0) | \pause |
+    # move the file pointer to the 0th byte (start)
+    # of the file:
+    file_obj.seek(0)
 
-# get the file contents as a string
-file_contents = myfile.read() 
+    # get the file contents as a string
+    file_contents = file_obj.read() | \pause |
 
-# always close the file
-myfile.close() | \pause |
-
-print(file_contents) # I wrote this to a file!
-                     # And now I also wrote this!
+# process file output
+print(file_contents) # output: I wrote this...
 \end{lstlisting} \pause 
 \end{itemize}
 \end{frame}
@@ -308,6 +322,10 @@ print(file_contents) # I wrote this to a file!
 \begin{frame}[fragile]
     \frametitle{Working with the filesystem: key modules}
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
+\item Reading and writing files
+    \begin{itemize}
+        \item The \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} command \pause
+    \end{itemize}
     \item Work with \emph{names} of directories and files (pathnames) \pause
     \begin{itemize}
         \item Newer, object-oriented \href{https://docs.python.org/3/library/pathlib.html#module-pathlib}{\texttt{Pathlib}} module (Python 3.5+) \pause
@@ -317,10 +335,6 @@ print(file_contents) # I wrote this to a file!
     \begin{itemize}
         \item Basic filesystem tasks: the \href{https://docs.python.org/3.7/library/os.html#module-os}{\texttt{os}} module (user access rights, removing directories, etc) \pause
         \item High-level operations: the \href{https://docs.python.org/3/library/shutil.html}{\texttt{shutil}} module (copying files, removing directory trees, etc)  \pause
-    \end{itemize}
-\item Reading and writing files
-    \begin{itemize}
-        \item The \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} command \pause
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -375,7 +389,7 @@ print(file_contents) # I wrote this to a file!
 import os # import modules | \pause |
 
 wdir = os.getcwd() # returns pathname (as string) | \pause |
-print(wdir) # e.g., "C:\" 
+print(wdir) # e.g., "C:\\" 
 \end{lstlisting}
     \end{itemize}
 \end{frame}
@@ -397,60 +411,41 @@ import os, os.path # import modules | \pause |
 # Get homedir through expanduser()
 # "~" denotes homedir in Unix (but this works on Windows too)
 home_dir = os.path.expanduser("~") | \pause |
-print(home_dir) # "C:\Users\foo323" | \pause |
+print(home_dir) # "C:\\Users\\foo323" | \pause |
 
 # change the directory to the homedir
 os.chdir(home_dir) | \pause |
 
 # check the result
-print(os.getcwd()) # "C:\Users\foo323"
+print(os.getcwd()) # "C:\\Users\\foo323"
 \end{lstlisting}
     \end{itemize}
 \end{frame}
-
-%\begin{frame}[fragile]
-%    \frametitle{Finding files}
-%            \dirtree{%
-%    .1 C:.
-%    .2 Users.
-%    .2 Public.
-%    .3 foo323.
-%    .4 Desktop.
-%    .4 Downloads.
-%    .4 Saved Games.
-%    .4 Photos 2018.
-%    .4 Scripts.
-%            }
-%    \begin{itemize}
-%        \item Task: in your home directory, find all directories (non-nested) whose names contain whitespace 
-%    \end{itemize}
-%\end{frame}
 
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
     \frametitle{Finding files}
     \begin{itemize}
-        \item Task: in your home directory, find all directories (non-nested) which contain whitespace
+        \item Task: in your home directory, find all subdirectories (non-nested) which contain whitespace
 \begin{lstlisting}[style=python]
 import re, os, os.path # import the modules | \pause |
 
 # go to home dir
-home_dir = os.path.expanduser("~") | \pause |
-os.chdir(home_dir) | \pause |
+home_dir = os.path.expanduser(path="~") | \pause |
+os.chdir(path=home_dir) | \pause |
 
 # list all files in home dir
-file_list = os.listdir() # ["Desktop", "Downloads", ...] | \pause |
+flist = os.listdir() #["Desktop", "Downloads",...] | \pause |
 
 # declare list containing dirs with spaces
 dirs_with_spaces = [] | \pause |
 
-for file_i in file_list: | \pause |
+for file_i in flist: | \pause |
     # check for white space in filename and whether file is directory
-    if re.search(r"\s",file_i) is not None and os.path.isdir(file_i): | \pause |
-        dirs_with_spaces += [file_i] # append
+    if re.search(pattern=r"\s",string=file_i) != None and os.path.isdir(file_i): | \pause |
+        dirs_with_spaces.append(file_i)
 \end{lstlisting} \pause
-\item \href{https://docs.python.org/3.7/library/os.html#os.listdir}{os.listdir()} retrieves a list of files in the current directory (not of any subdirectories)
     \end{itemize}
 \end{frame}
 
@@ -461,9 +456,9 @@ for file_i in file_list: | \pause |
     \frametitle{Finding files 2}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
         \item Task: list all files \emph{anywhere} within the home directory which have a size larger than 50 kB \pause
-        \item Iterate over all files in any subdirectory within the home directory, using \href{https://docs.python.org/3.7/library/os.html#os.walk}{os.walk()}: \pause
+        \item Iterate over all files in any subdirectory within the home directory, using \href{https://docs.python.org/3/library/os.html#os.walk}{\texttt{os.walk()}}: \pause
     \begin{itemize}
-        \item \href{https://docs.python.org/3.7/library/os.html#os.walk}{os.walk()} walks the directory tree, returning a tuple for each directory with \texttt{(parent\_dir, subdirectories, files)}
+        \item \href{https://docs.python.org/3/library/os.html#os.walk}{\texttt{os.walk()}} walks the directory tree, returning a tuple for each directory with \texttt{(parent\_dir, subdirectories, files)}
     \end{itemize}
     \end{itemize}
 \end{frame}
@@ -505,7 +500,7 @@ for file_i in file_list: | \pause |
 import os 
 
 # get home directory
-homedir = os.path.expanduser("~") | \pause |
+homedir = os.path.expanduser(path="~") | \pause |
 
 # iterate over all files nested in the home directory
 for parent_dir, subdirs, files in os.walk(homedir): | \pause |
@@ -563,9 +558,8 @@ import shutil
 # store a filename 
 filename = "new_file.txt" | \pause |
 
-f = open("new_file.txt","w") | \pause |
-f.write("some text") | \pause |
-f.close() | \pause |
+with open(file="new_file.txt",mode="w") as f:| \pause |
+    f.write("some text") | \pause |
 
 # now copy using shutil
 shutil.copy(filename, "another_new_file.txt") | \pause |
@@ -577,8 +571,6 @@ print(os.listdir(".")) | \pause |
 \end{lstlisting}
 \end{itemize}
 \end{frame}
-
-
 
 
 % End of Document

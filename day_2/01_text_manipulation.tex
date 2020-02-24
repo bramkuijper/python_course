@@ -518,7 +518,7 @@ re.sub(pattern=regex, repl=replacement, string=str_to_match) # Factor levels are
         \item In Python, that is:
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 two_dates = "23.01.1980,29-03-2019" 
-date_regex = r"(\d{1,2})[.-](\d{1,2})[.-](\d{2,4})"
+date_regex = r"(\d{1,2})[.-](\d{1,2})[.-](\d{4})"
 date_substitution = r"\3-\2-\1"
 re.sub(pattern=date_regex, repl=date_substitution, string=two_dates)
 # 23-01-1980,29-3-2019 
