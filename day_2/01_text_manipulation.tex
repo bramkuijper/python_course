@@ -298,7 +298,7 @@ import re | \pause |
 s = "23.01.1980,8.9.1990,15-03-2019" | \pause |
 
 # regular expression (given as a r"" [raw literal] string)
-all_dates = re.findall(r"(\d{1,2})[-.](\d{1,2})[-.](\d{4})",s) | \pause |
+all_dates = re.findall(pattern=r"(\d{1,2})[-.](\d{1,2})[-.](\d{4})", string=s) | \pause |
 
 # print the result
 for date in all_dates:
@@ -322,7 +322,7 @@ import re  | \pause |
 str_to_match = "Factors: 1foo, 2foo, foo, 4bar" | \pause |
 # regex that matches '1foo', '2foo' etc but not 'foo' | \pause |
 regex = r"\dfoo" | \pause |  
-print(re.findall(regex, str_to_match)) # ['1foo','2foo']
+print(re.findall(pattern=regex, string=str_to_match)) # ['1foo','2foo']
 \end{lstlisting}
     \end{itemize}
 \end{frame}
@@ -355,7 +355,7 @@ print(re.findall(regex, str_to_match)) # ['1foo','2foo']
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str_to_match = "Factor levels are snafoo, foosna and foo" | \pause |
 regex = r"\bfoo\b" # regex | \pause |  
-m = re.search(regex, str_to_match) # Factor levels are snafoo, foosna and bar | \pause |
+m = re.search(pattern=regex, string=str_to_match) # Factor levels are snafoo, foosna and bar | \pause |
 m.group(0) # obtain the complete match | \pause |
 m.start() # Match position in string: 37
 \end{lstlisting} \pause
@@ -377,14 +377,14 @@ m.start() # Match position in string: 37
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "foo snafoo funfoo"
 regex = r"^foo" # regex matching the first foo | \pause |  
-m = re.search(regex, str1) 
+m = re.search(pattern=regex, string=str1) 
 m.start() # match position in string: 0
 \end{lstlisting} \pause
         \item\texttt{\$} matches end of a string 
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "foo snafoo funfoo"
 regex = r"foo$" # regex matching the last foo | \pause |  
-m = re.search(regex, str1) 
+m = re.search(pattern=regex, string=str1) 
 m.start() # match position in string: 14 
 \end{lstlisting} \pause
     \end{itemize}
@@ -398,14 +398,14 @@ m.start() # match position in string: 14
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "the number 60 is larger than 59"
 regex = r"[0-5][0-9]" # matches 00 to 59 | \pause |  
-m = re.search(regex, str1) 
+m = re.search(pattern=regex, string=str1) 
 m.group(0) # '59'
 \end{lstlisting} 
     \item \texttt{[\textasciicircum...]} matches characters not in the range 
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 seq1 = "cccgggtaacccg" | \pause |
 regex = r"[^cg]" # do not match c or g | \pause |  
-m = re.search(regex, seq1) 
+m = re.search(pattern=regex, string=seq1) 
 m.group(0)  # 't', first match when using re.search()
 \end{lstlisting} 
     \end{itemize}
@@ -423,19 +423,19 @@ m.group(0)  # 't', first match when using re.search()
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "numbers 60, 500 and 3000"
 regex = r"\d*" # matches 0 or more occurrences of numbers | \pause |  
-re.findall(str1,regex) #  ['', '', '', '', '', '', '', '', '60', '', '500', '', '', '', '', '', '3000', '']
+re.findall(pattern=regex, string=str1) #  ['', '', '', '', '', '', '', '', '60', '', '500', '', '', '', '', '', '3000', '']
 \end{lstlisting} \pause
         \item\texttt{+} matches preceding regex 1 or more times \pause
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "numbers 60, 500 and 3000"
 regex = r"\d+" # matches 1 or more occurrences of numbers | \pause |  
-re.findall(str1,regex) #  ['60', '500', '3000']
+re.findall(pattern=regex, string=str1) #  ['60', '500', '3000']
 \end{lstlisting} \pause
         \item\texttt{?} matches preceding regex 0 or 1 times \pause
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "numbers 60, 500 and 3000"
 regex = r"\d?" # matches 0 or 1 occurrences of numbers | \pause |  
-re.findall(str1,regex) # ['', '', '', '', '', '', '', '', '6', '0', '', '', '5', '0', '0', '', '', '', '', '', '3', '0', '0', '0', '']
+re.findall(pattern=regex, string=str1) # ['', '', '', '', '', '', '', '', '6', '0', '', '', '5', '0', '0', '', '', '', '', '', '3', '0', '0', '0', '']
 \end{lstlisting} 
     \end{itemize}
 \end{frame}
@@ -452,13 +452,13 @@ re.findall(str1,regex) # ['', '', '', '', '', '', '', '', '6', '0', '', '', '5',
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "numbers 5, 60, 500, 3000, 50000"
 regex = r"\d{2,4}" # matches numbers of 2 to 4 digits | \pause |  
-re.findall(str1,regex) # ['60', '500', '3000', '5000']
+re.findall(pattern=regex, string=str1) # ['60', '500', '3000', '5000']
 \end{lstlisting} \pause
         \item\texttt{*?}, \texttt{+?}, \texttt{??}, \texttt{\{m,n\}?} minimize the number of times a pattern matches \pause
 \begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
 str1 = "numbers 5, 60, 500, 3000, 50000"
 regex = r"\d{2,4}?" # matches numbers of 2 to 4 digits, favoring minimal numbers | \pause |  
-re.findall(str1,regex) # ['60', '50', '30', '00', '50', '00']
+re.findall(pattern=regex, string=str1) # ['60', '50', '30', '00', '50', '00']
 \end{lstlisting} \pause
     \end{itemize}
 \end{frame}
@@ -476,12 +476,12 @@ re.findall(str1,regex) # ['60', '50', '30', '00', '50', '00']
 str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
 # pattern that matches '1foo', '2foo' etc but not 'foo'
 regex = r"\dfoo" # regex | \pause |  
-m = re.search(regex, str_to_match) # returns a Match object  | \pause |
+m = re.search(pattern=regex, string=str_to_match) # returns a Match object  | \pause |
 
 m.group(0) # '1foo'
 
 regex = r"\dbar" # another regex which does not match | \pause |  
-re.search(regex, str_to_match) # None
+re.search(pattern=regex, string=str_to_match) # None
 \end{lstlisting}
     \end{itemize}
 \end{frame}
@@ -497,7 +497,7 @@ str_to_match = "Factor levels are 1foo, 2foo and foo" | \pause |
 regex = r"(\d)foo" # regex | \pause |  
 # replace foo by bar but keep the digit
 replacement = r"\1bar" # regex | \pause |  
-re.sub(regex, replacement, str_to_match) # Factor levels are 1bar, 2bar and foo
+re.sub(pattern=regex, repl=replacement, string=str_to_match) # Factor levels are 1bar, 2bar and foo
 \end{lstlisting} \pause
         \item Everything within \texttt{()} (a group) is stored in memory \pause
         \item Group contents can be recalled in the replacement, using \texttt{\textbackslash 1},\texttt{\textbackslash 2},\texttt{\textbackslash 3}, etc
@@ -520,7 +520,7 @@ re.sub(regex, replacement, str_to_match) # Factor levels are 1bar, 2bar and foo
 two_dates = "23.01.1980,29-03-2019" 
 date_regex = r"(\d{1,2})[.-](\d{1,2})[.-](\d{2,4})"
 date_substitution = r"\3-\2-\1"
-re.sub(date_regex, date_substitution, two_dates)
+re.sub(pattern=date_regex, repl=date_substitution, string=two_dates)
 # 23-01-1980,29-3-2019 
 \end{lstlisting} 
     \end{itemize}
@@ -529,9 +529,9 @@ re.sub(date_regex, date_substitution, two_dates)
 \begin{frame}[fragile]
     \frametitle{Another regex exercise}
     \begin{itemize}
-        \item Use \url{https://regex101.com/} to match the words 'pit', 'spot', 'spate', but not 'pt', 'Pot', 'peat', 'part' | \pause |
-\begin{lstlisting} 
-    regex = r"s?p(i|o|a)te?"
+        \item Use \url{https://regex101.com/} to match the words 'pit', 'spot', 'spate', but not 'pt', 'Pot', 'peat', 'part' \pause
+\begin{lstlisting}[style=python,belowskip=-1.5 \baselineskip]
+    regex = r"s?p(i|$\textbar$|o|$\textbar$|a)te?"
 \end{lstlisting} 
     \end{itemize}
 \end{frame}
