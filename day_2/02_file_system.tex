@@ -165,6 +165,147 @@ literate={ö}{{\"o}}1
 %=============================================================================%
 
 \begin{frame}[fragile]
+    \frametitle{Filesystem: introduction}
+
+    \begin{itemize}
+        \item Nearly every program will \href{https://docs.python.org/3/tutorial/inputoutput.html\#reading-and-writing-files}{read and write files} (also called file IO; file input and output) \pause 
+        \item The file IO workhorse is the \href{https://docs.python.org/3/library/functions.html\#open}{\texttt{open()}} function, which opens a file and returns a file object \pause
+        \item Next, there are several utilities to find out information about files and directories
+            contained in modules like \href{https://docs.python.org/3/library/os.html?highlight=os\#module-os}{\texttt{os}}, \href{https://docs.python.org/3/library/os.path.html?highlight=os%20path\#module-os.path}{\texttt{os.path}} and \href{https://docs.python.org/3/library/shutil.html?highlight=shutil\#module-shutil}{\texttt{shutil}} 
+    \end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
+    \frametitle{Using \texttt{open()}: writing files}
+\begin{itemize}
+    \item open a file for writing, using the \href{https://docs.python.org/3/library/functions.html\#open}{\texttt{open()}} command \pause
+\begin{lstlisting}[style=python]
+# the mode="w" keyword argument reflects that we will write to a file
+# any existing contents will be overwritten
+file_obj = open(file="hfile.txt",mode="w") | \pause |
+
+# write a string to the file
+file_obj.write("Hello world!") | \pause |
+
+# always close the file
+file_obj.close()
+\end{lstlisting}
+    \item The above listing is bad practice, however: Any error in lines 4 - 8, \texttt{file\_obj} causes python to quits before \texttt{file\_obj.close()} is called
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+\begin{frame}[fragile]
+    \frametitle{Using \texttt{open()}: writing files II}
+\begin{itemize}
+    \item Instead, we need to use a \texttt{with} statement \pause
+\begin{lstlisting}[style=python]
+with open(file="hfile.txt",mode="w") as file_obj:| \pause |
+    file_obj.write("Hello world!") | \pause |
+\end{lstlisting}
+    \item Here, the variable following \texttt{as} (here: \texttt{file\_obj}) will be automatically closed once the statement is finished (normally) or is ended (in case of an error)
+    \item Either way, \texttt{file\_obj} will not remain open
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Reading files, using \texttt{open()}}
+\begin{itemize}
+    \item open a file for reading, using the \href{https://docs.python.org/3/library/io.html#io.TextIOBase.read}{\texttt{read()}} command \pause
+\begin{lstlisting}[style=python]
+# the mode="r" keyword reflects that we read from a file
+with open(file="hfile.txt",mode="r") as file_obj:
+    # get the file contents as a string
+    file_contents = file_obj.read() | \pause |
+
+# process file output
+print(file_contents) # Hello World!
+\end{lstlisting}
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+%    \item File objects have various member functions such as \href{https://docs.python.org/3/library/io.html#io.TextIOBase.read}{\texttt{read()}, \href{https://docs.python.org/3/library/io.html#io.TextIOBase.write}{\texttt{write()} and \href{https://docs.python.org/3/library/io.html#io.IOBase.close}{close()}
+
+\begin{frame}[fragile]
+    \frametitle{Other modes of the \texttt{open()} function}
+\begin{itemize}
+    \item Different file opening modes can be specified by mode keyword of the {\texttt{open()}} function \pause 
+\begin{center}
+    \rowcolors{1}{}{lightgray} %-- this indicates the change in odd and pair rows
+    \begin{tabular}{|l|l|}\hline
+        Flag & File operation \\ \hline
+        \texttt{"w"}
+    & Write to a file, file will be truncated first \\
+        \texttt{"r"} & Reading from a file \\
+        \texttt{"r+"} & Reading and writing to a file \\
+        \texttt{"a"} & Append to a file \\
+        \texttt{"a+"} & Read from and write (by appending) to a file \\
+        \texttt{"x"} & Exclusive creation, fails if file exists \\ \hline
+    \end{tabular}
+\end{center}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Appending to a file}
+\begin{itemize}
+    \item Append text to a previously opened file using \texttt{mode="a+"}: 
+\begin{lstlisting}[style=python]
+# first write something to a new file
+with open(file="myfile",mode="w") as myfile: | \pause |
+    myfile.write("I wrote this to a file!")
+
+with open(file="myfile",mode="a+") as myfile: | \pause |
+    myfile.write("\nAnd now I also wrote this!")
+
+    # get the file contents as a string
+    file_contents = myfile.read() | \pause |
+
+# process file output
+print(file_contents) # Nothing!
+\end{lstlisting} \pause 
+    \item No output because the internal file pointer used by \texttt{file.read()} is at the end of the file!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Appending to a file}
+\begin{itemize}
+    \item Solution: use the \texttt{file.seek()} command to change the internal file pointer position \pause 
+\begin{lstlisting}[style=python]
+# first write something to a new file
+myfile = open("myfile","w") | \pause |
+myfile.write("I wrote this to a file!")
+myfile.close()
+
+myfile = open("myfile","a+") | \pause |
+myfile.write("\nAnd now I also wrote this!")
+
+# move the file pointer to the 0th byte of the file
+myfile.seek(0) | \pause |
+
+# get the file contents as a string
+file_contents = myfile.read() 
+
+# always close the file
+myfile.close() | \pause |
+
+print(file_contents) # I wrote this to a file!
+                     # And now I also wrote this!
+\end{lstlisting} \pause 
+\end{itemize}
+\end{frame}
+
+%=============================================================================%
+%=============================================================================%
+
+\begin{frame}[fragile]
     \frametitle{Working with the filesystem: key modules}
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
     \item Work with \emph{names} of directories and files (pathnames) \pause
@@ -439,123 +580,6 @@ print(os.listdir(".")) | \pause |
 
 
 
-\begin{frame}[fragile]
-    \frametitle{Writing files}
-\begin{itemize}
-    \item open a file for writing, using the \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} command \pause
-\begin{lstlisting}[style=python]
-# the 'w' flag reflects that we write to a file
-# any existing contents will be overwritten
-the_file_object = open("my_first_file","w") | \pause |
-
-# write a string to the file
-the_file_object.write("Hello world!") | \pause |
-
-# always close the file
-the_file_object.close()
-\end{lstlisting}
-\end{itemize}
-\end{frame}
-
-%=============================================================================%
-%=============================================================================%
-
-\begin{frame}[fragile]
-    \frametitle{Reading files}
-\begin{itemize}
-    \item open a file for reading, using the \href{https://docs.python.org/3/library/functions.html#read}{\texttt{read()}} command \pause
-\begin{lstlisting}[style=python]
-# the 'r' flag reflects that we read from a file
-the_file_object = open("my_first_file","r") | \pause |
-
-# get the file contents as a string
-file_contents = the_file_object.read() | \pause |
-
-# always close the file
-the_file_object.close() | \pause |
-
-# process file output
-print(file_contents) # Hello World!
-\end{lstlisting}
-\end{itemize}
-\end{frame}
-
-%=============================================================================%
-%=============================================================================%
-
-\begin{frame}[fragile]
-    \frametitle{Other file operations}
-\begin{itemize}
-    \item File operations can be specified by the flag provided to \href{https://docs.python.org/3/library/functions.html#open}{\texttt{open()}} function \pause 
-\begin{center}
-    \rowcolors{1}{}{lightgray} %-- this indicates the change in odd and pair rows
-    \begin{tabular}{|l|l|}\hline
-        Flag & File operation \\ \hline
-        \texttt{"w"}
-    & Write to a file, file will be truncated first \\
-        \texttt{"r"} & Reading from a file \\
-        \texttt{"r+"} & Reading and writing to a file \\
-        \texttt{"a"} & Append to a file \\
-        \texttt{"a+"} & Read from and write (by appending) to a file \\
-        \texttt{"x"} & Exclusive creation, fails if file exists \\ \hline
-    \end{tabular}
-\end{center}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Appending to a file}
-\begin{itemize}
-    \item Append text to a previously opened file using the \texttt{a+} flag
-\begin{lstlisting}[style=python]
-# first write something to a new file
-myfile = open("myfile","w") | \pause |
-myfile.write("I wrote this to a file!")
-myfile.close()
-
-myfile = open("myfile","a+") | \pause |
-myfile.write("\nAnd now I also wrote this!")
-
-# get the file contents as a string
-file_contents = myfile.read() | \pause |
-
-# always close the file
-myfile.close() | \pause |
-
-# process file output
-print(file_contents) # Nothing!
-\end{lstlisting} \pause 
-    \item No output because the internal file pointer used by \texttt{file.read()} is at the end of the file!
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Appending to a file}
-\begin{itemize}
-    \item Solution: use the \texttt{file.seek()} command to change the internal file pointer position \pause 
-\begin{lstlisting}[style=python]
-# first write something to a new file
-myfile = open("myfile","w") | \pause |
-myfile.write("I wrote this to a file!")
-myfile.close()
-
-myfile = open("myfile","a+") | \pause |
-myfile.write("\nAnd now I also wrote this!")
-
-# move the file pointer to the 0th byte of the file
-myfile.seek(0) | \pause |
-
-# get the file contents as a string
-file_contents = myfile.read() 
-
-# always close the file
-myfile.close() | \pause |
-
-print(file_contents) # I wrote this to a file!
-                     # And now I also wrote this!
-\end{lstlisting} \pause 
-\end{itemize}
-\end{frame}
 
 % End of Document
 %=============================================================================%
