@@ -5,11 +5,12 @@
 # get current directory in which script resides
 current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# directory of day 1
-day_1_dir=$current_dir/"day_1/"
-day_2_dir=$current_dir/"day_2/"
 
-website_repo=$current_dir/../exeter-data-analytics.github.io/workshops/intro-to-python/
+# directory of day 1
+day_1_dir="$current_dir/day_1/"
+day_2_dir="$current_dir/day_2/"
+
+website_repo="$current_dir/../exeter-data-analytics.github.io/workshops/intro-to-python/"
 
 if [[ ! -d "$website_repo" ]]
 then
@@ -57,50 +58,63 @@ practical_04_dest=04-TextManipulation-Practical
 practical_04_ans=String_Manipulation_Practical_Answers
 practical_04_ans_dest=04-TextManipulation-Practical-Answers
 
+practical_05=Files_Practical
+practical_05_dest=05-FileSystem-Practical
+practical_05_ans=Files_Practical_Answers
+practical_05_ans_dest=05-FileSystem-Practical-Answers
+
 echo "copying first lecture"
 olddir=`pwd`
-cd $day_1_dir
-make
-cp $slides_00 $website_repo/$slides_00_dest
-cp $slides_01 $website_repo/$slides_01_dest
-cp $slides_02 $website_repo/$slides_02_dest
-cp $slides_03 $website_repo/$slides_03_dest
+cd "$day_1_dir"
 
+make
+cp "$slides_00" "$website_repo/$slides_00_dest"
+cp "$slides_01" "$website_repo/$slides_01_dest"
+cp "$slides_02" "$website_repo/$slides_02_dest"
+cp "$slides_03" "$website_repo/$slides_03_dest"
 
 # regenerate practical htmls
-jupyter nbconvert --execute --to html $practical_01.ipynb
-jupyter nbconvert --execute --to html $practical_01_ans.ipynb
+jupyter nbconvert --execute --to html "$practical_01.ipynb"
+jupyter nbconvert --execute --to html "$practical_01_ans.ipynb"
 
-cp $practical_01.html $website_repo/$practical_01_dest.html
-cp $practical_01_ans.html $website_repo/$practical_01_ans_dest.html
+cp "$practical_01.html" "$website_repo/$practical_01_dest.html"
+cp "$practical_01_ans.html" "$website_repo/$practical_01_ans_dest.html"
 
 # practical 02
-jupyter nbconvert --execute --to html $practical_02.ipynb
-jupyter nbconvert --execute --to html $practical_02_ans.ipynb
+jupyter nbconvert --execute --to html "$practical_02.ipynb"
+jupyter nbconvert --execute --to html "$practical_02_ans.ipynb"
 
-cp $practical_02.html $website_repo/$practical_02_dest.html
-cp $practical_02_ans.html $website_repo/$practical_02_ans_dest.html
+cp "$practical_02.html" "$website_repo/$practical_02_dest.html"
+cp "$practical_02_ans.html" "$website_repo/$practical_02_ans_dest.html"
 
 # practical 03
-jupyter nbconvert --execute --to html $practical_03.ipynb
-jupyter nbconvert --execute --to html $practical_03_ans.ipynb
+jupyter nbconvert --execute --to html "$practical_03.ipynb"
+jupyter nbconvert --execute --to html "$practical_03_ans.ipynb"
 
-cp $practical_03.html $website_repo/$practical_03_dest.html
-#cp $practical_03_ans.html $website_repo/$practical_03_ans_dest.html
+cp "$practical_03.html" "$website_repo/$practical_03_dest.html"
+cp "$practical_03_ans.html" "$website_repo/$practical_03_ans_dest.html"
 
-cd $day_2_dir
+cd "$day_2_dir"
 make
 
 ##### copy lecture slides
-cp $slides_04 $website_repo/$slides_04_dest
-cp $slides_05 $website_repo/$slides_05_dest
+cp "$slides_04" "$website_repo/$slides_04_dest"
+cp "$slides_05" "$website_repo/$slides_05_dest"
+cp "$slides_06" "$website_repo/$slides_06_dest"
 
-#### copy practicals
-jupyter nbconvert --execute --to html $practical_04.ipynb
-jupyter nbconvert --execute --to html $practical_04_ans.ipynb
+#### practical 04
+jupyter nbconvert --execute --to html "$practical_04.ipynb"
+jupyter nbconvert --execute --to html "$practical_04_ans.ipynb"
 
-cp $practical_04.html $website_repo/$practical_04_dest.html
-#cp $practical_04_ans.html $website_repo/$practical_04_ans_dest.html
+cp "$practical_04.html" "$website_repo/$practical_04_dest.html"
+#cp "$practical_04_ans.html" "$website_repo/$practical_04_ans_dest.html"
 
-ls -alnh $website_repo
+### practical 05
+jupyter nbconvert --execute --to html "$practical_05.ipynb"
+jupyter nbconvert --execute --to html "$practical_05_ans.ipynb"
+
+cp "$practical_05.html" "$website_repo/$practical_05_dest.html"
+#cp "$practical_05_ans.html" "$website_repo/$practical_05_ans_dest.html"
+
+ls -alnh "$website_repo"
 
