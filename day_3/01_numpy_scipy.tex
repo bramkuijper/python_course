@@ -133,8 +133,8 @@ literate={ö}{{\"o}}1
 
 \end{frame}
 
-=============================================================================%
-=============================================================================%
+%=============================================================================%
+%=============================================================================%
 \begin{frame}{Motivation}
 
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
@@ -236,33 +236,60 @@ eival, eivec = np.linalg.eig(x)
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{A taste of NumPy}
-
+\frametitle{Numpy: number sequences}
+    \begin{itemize} 
+        \item Functions to create evenly spaced sequences of numbers:
 \begin{lstlisting}[style=python]
-# Generate random numbers
-np.random.rand() # from a uniform distribution
-np.random.randn() # from a normal distribution
-np.random.randn(5, 5) # 5 x 5 matrix of random numbers
+# 0 to 1 (but not including 1) in steps of 0.1
+np.arange(0, 1, 0.1) 
 
-# Create number sequences
-np.arange(0, 1, 0.1) # 0 to 1 (but not including 1) in steps of 0.1
-np.linspace(0, 1, 100) # 100 values between 0 and 1
-np.logspace(0, 1, 10) # 10 values between 10^0 and 10^1
+# 100 evenly spaced values between 0 and 1 (including 1)
+np.linspace(0, 1, 100) 
+
+# 10 evenly spaced values between 10^0 and 10^1 (log scale)
+np.logspace(0, 1, 10) 
 \end{lstlisting}
+    \end{itemize}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Numpy: random numbers}
+    \begin{itemize}
+        \item Random numbers using \href{https://docs.scipy.org/doc/numpy/reference/random/generator.html#numpy.random.default_rng}{\texttt{numpy.random.default\_rng}}:
+\begin{lstlisting}[style=python]
+# import the default random number generator function
+from numpy.random import default_rng | \pause |
+
+# initialize random number generator object
+# optionally one can provide it with a seed:
+# same random sequence is then 'replayed' each time
+rng_obj = default_rng(seed=3434) | \pause |
+
+# uniform distribution
+rng_obj.uniform(size=5)
+
+# normal distribution
+rng_obj.normal(size=10)
+
+# random integers from 0 to 9 (in this case: returns a 5x5 matrix) 
+rng_obj.integers(low=0, high = 10, size=(5,5))
+\end{lstlisting}
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
 %=============================================================================%
 \begin{frame}[fragile]
 \frametitle{A taste of SciPy}
-
+    \begin{itemize}
+        \item Basic statistics provided by \href{https://docs.scipy.org/doc/scipy/reference/stats.html}{\texttt{scipy.stats}}
+        \item For more advanced statistical tests (e.g., GLM, GLMM), check out the \href{https://www.statsmodels.org/stable/index.html}{\texttt{statsmodels}} package
 \begin{lstlisting}[style=python]
 import scipy.stats as sp
 
 # Create two random arrays
-x1 = np.random.randn(30)
-x2 = np.random.randn(30)
+x1 = rng_obj.normal(size=30)
+x2 = rng_obj.normal(size=30)
 
 # Correlation coefficientss
 sp.pearsonr(x1, x2) # pearson correlation
@@ -277,7 +304,7 @@ sp.wilcoxon(x1, x2) # Wilcoxon signed-rank test
 # Least-squares regression
 sp.linregress(x1, x2)
 \end{lstlisting}
-
+    \end{itemize}
 \end{frame}
 
 %=============================================================================%
