@@ -9,6 +9,7 @@ current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # directory of day 1
 day_1_dir="$current_dir/day_1/"
 day_2_dir="$current_dir/day_2/"
+day_3_dir="$current_dir/day_3/"
 
 website_repo="$current_dir/../exeter-data-analytics.github.io/workshops/intro-to-python/"
 
@@ -36,6 +37,15 @@ slides_04_dest=04-TextManipulation.pdf
 
 slides_05=02_file_system.pdf
 slides_05_dest=05-FileSystem.pdf
+
+slides_06=01_numpy_scipy.pdf
+slides_06_dest=06-NumpyScipy.pdf
+
+slides_07=02_matplotlib.pdf
+slides_07_dest=07-Matplotlib.pdf
+
+slides_08=03_pandas.pdf
+slides_08_dest=08-Pandas.pdf
 
 ### now the practicals
 practical_01=01_DataTypes_Practical
@@ -100,7 +110,6 @@ make
 ##### copy lecture slides
 cp "$slides_04" "$website_repo/$slides_04_dest"
 cp "$slides_05" "$website_repo/$slides_05_dest"
-cp "$slides_06" "$website_repo/$slides_06_dest"
 
 #### practical 04
 jupyter nbconvert --execute --to html "$practical_04.ipynb"
@@ -118,3 +127,8 @@ cp "$practical_05.html" "$website_repo/$practical_05_dest.html"
 
 ls -alnh "$website_repo"
 
+cd "$day_3_dir"
+make
+
+cp "$slides_06" "$website_repo/$slides_06_dest"
+cp "$slides_07" "$website_repo/$slides_07_dest"
