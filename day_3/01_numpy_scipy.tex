@@ -172,13 +172,13 @@ x.max() # return max of array
 x.sum() # sum all elements in array
 \end{lstlisting}
 \pause 
-    \item Note that \texttt{np.array} is different from a list
+    \item Here, \href{https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array}{\texttt{np.array()}} returns a \href{https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray}{\texttt{np.ndarray}} object. 
         \pause
         \begin{itemize}
-            \item For example, operations like \texttt{list.reverse()} do not work
+            \item Not a list, hence operations like \texttt{list.reverse()} do not work
         \end{itemize}
             \pause
-    \item Easy, however, to cast \texttt{np.array} to a list
+    \item Easy, however, to cast \texttt{np.ndarray} to a list
         \pause 
 \begin{lstlisting}[style=python]
 x_list = list(x) # [1, 3, 4, 2 ]
