@@ -3,7 +3,7 @@
 %=============================================================================%
 % Libraries
 
-\documentclass[xcolor=table]{beamer}
+\documentclass[xcolor=table,aspectratio=169]{beamer}
 %\usepackage{beamerthemeshadow}
 \usepackage{helvet}
 \usepackage[]{graphicx}
@@ -78,86 +78,94 @@ stringstyle=\color{deepgreen}
 \graphicspath{ {../img/} }
 
 \begin{document}
-\title{Python for Scientific Research}   
+\title{Programming in Python for Scientific Research}   
+\subtitle{Introduction to Python}   
 \author{Bram Kuijper}
 \institute[]{University of Exeter, Penryn Campus, UK}
+\date{}
 \titlegraphic{
 \hfill
-\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}}
+\includegraphics[width=\textwidth, keepaspectratio]{IDSAI.pdf}}
 
 \frame{\titlepage} 
 \begin{frame}{Acknowledgements}
 \begin{itemize}\addtolength{\itemsep}{\baselineskip}
     \item This course is funded by UExeter's Institute for Data Science and Artificial Intelligence: \href{https://www.exeter.ac.uk/idsai/}{IDSAI}
-	\item Big thanks to \href{https://emps.exeter.ac.uk/mathematics/staff/jjv207}{JJ Valletta} as he has developed these lectures 
-    \item Big thanks to \href{http://emps.exeter.ac.uk/mathematics/staff/dp457}{Deepak Kumar Panda} for helping out this afternoon 
+    \item This course was originally designed by the late and great JJ Valletta (1983 - 2020), who worked as a postdoc here in Penryn
+\begin{center}
+    \includegraphics[width = 20mm]{jj_valletta.jpg}
+\end{center}
 \end{itemize}
-\vfill
-\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}
+%\includegraphics[width=\textwidth, keepaspectratio]{logo.jpg}
 
 \end{frame}
 
-\frame{
-    \frametitle{Course Schedule} 
-    \begin{itemize}
-        \item Tuesday Feb 4: The basics of programming in Python
-            \begin{itemize}
-                \item how to run Python code
-                \item data types
-                \item flow control
-                \item functions and modules
-            \end{itemize}
-            \pause
-        \item Tuesday Feb 11: Applying Python to simplify your life
-            \begin{itemize}
-                \item text manipulation and regular expressions
-                \item working with files and streams
-                \item number crunching with \texttt{numpy} and \texttt{scipy}
-            \end{itemize}
-            \pause
-        \item Tuesday Feb 25: Advanced subjects
-            \begin{itemize}
-                \item working with data using \texttt{pandas}
-                \item making graphs using \texttt{matplotlib}
-                \item data visualisation with \texttt{seaborn}
-            \end{itemize}
-    \end{itemize}
-}
-
-\frame{
-    \frametitle{Schedule Tue Feb 4} 
-% TODO  work on refining schedule
-    \begin{itemize}
-        \item Morning session, 0900 - 1100 DDM IT 3.037
-    \begin{itemize}
-        \item 0900 - 0930: How to run Python
-        \item 0930 - 1000: Data types
-        \item 1000 - 1010: Break
-        \item 1010 - 1100: Data types practical
-    \end{itemize}
-        \item Afternoon session, 1300 - 1600 DDM IT 3.037
-    \begin{itemize}
-        \item 1300 - 1300: Flow control
-        \item 1330 - 1400: Flow control practical
-        \item 1400 - 1410: Break
-        \item 1410 - 1430: Flow control practical continued 
-        \item 1430 - 1500: Functions 
-        \item 1500 - 1510: Break
-        \item 1510 - 1600: Functions practical
-    \end{itemize}
-    \end{itemize}
-}
-
-\frame{\frametitle{Some important websites}
+\frame{\frametitle{Intended learning outcomes}
 \begin{itemize}
-    \item Course website: \url{https://exeter-data-analytics.github.io}
-    \item Python documentation: \url{https://docs.python.org}
+    \item Know how to access resources and learning materials on Python
+        \pause
+    \item Understand pros and cons of choosing Python as a programming language
+        \pause
+    \item Find your Python distribution of choice
+        \pause
+    \item Understand how to run Python on your computer
 \end{itemize}
+        \pause
+\emph{Slides provide various \href{https://docs.python.org/3/}{pointers} to further information}
+}
+
+\frame{\frametitle{Resources for self-study}
+\begin{itemize}
+    \item Course website \url{https://exeter-data-analytics.github.io}
+        \begin{itemize}
+            \item Lecture slides and videos
+            \item Exercises
+            \item Additional resources
+        \end{itemize}
+        \pause
+    \item Python documentation: \url{https://docs.python.org}
+        \begin{itemize}
+            \item They have a \href{https://docs.python.org/3/tutorial/index.html}{pretty good tutorial}, particularly for those who already have some programming experience
+        \end{itemize}
+\end{itemize}
+}
+
+\frame{\frametitle{Resources for self-study II: some of many books}
+\begin{columns}
+\column{0.33\textwidth}
+    \begin{minipage}[c][0.6\textheight][c]{\linewidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{automate_2e_cover.png}
+    \end{minipage}
+    \begin{minipage}[c][0.2\textheight][c]{\linewidth}
+        \small{very practical intro on Python: e.g., working with many files, interacting with Excel/Word/PDF documents, GUI automation. Free online} 
+    \end{minipage}
+
+% 2nd column
+\column{0.33\textwidth}
+    \begin{minipage}[c][0.6\textheight][c]{\linewidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{lutz_python.png}
+    \end{minipage}
+    \begin{minipage}[c][0.2\textheight][c]{\linewidth}
+        \small{Covers everything in detail, hence not a quick introduction. UExeter e-resource} 
+    \end{minipage}
+
+%3rd column 
+\column{0.33\textwidth}
+    \begin{minipage}[c][0.6\textheight][c]{\linewidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{severance_book.jpg}
+    \end{minipage}
+    \begin{minipage}[c][0.2\textheight][c]{\linewidth}
+        \small{Good balance between detail and basic introduction. Free online} 
+    \end{minipage}
+\end{columns}
 }
 
 \frame{\frametitle{What is Python?}
 \begin{itemize}
-    \item A scripted, high-level programming language created by Guido Van Rossum and named after Monty Python's flying circus
+    \item A scripted, high-level programming language created by \href{https://gvanrossum.github.io/}{Guido Van Rossum} and named after \href{https://en.wikipedia.org/wiki/Monty_Python\%27s_Flying_Circus}{Monty Python's flying circus}
 \begin{center}
     \includegraphics[width = 20mm]{GuidoVanRossumSmall.jpg}
     \includegraphics[width = 20mm]{MontyPython.jpg}
@@ -167,9 +175,8 @@ stringstyle=\color{deepgreen}
 \end{itemize}
 }
 
-
 \frame{\frametitle{Why use Python?}
-The TIOBE index is a measure of the popularity of programming languages:
+The \href{https://www.tiobe.com/tiobe-index/}{TIOBE} index is a measure of the popularity of programming languages:
     \includegraphics[width = 10cm]{TiobeIndex.png}
 }
 
@@ -178,7 +185,7 @@ The TIOBE index is a measure of the popularity of programming languages:
 
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
 	\item<1-> It is free! No licence costs
-	\item<2-> Runs on many platforms (Mac, Windows, Linux)
+	\item<2-> Runs on almost any platform (Mac, Windows, Linux)
 	\item<3-> Because of its ease of programming, Python minimises development effort
 	\item<4-> A huge number of \href{https://pypi.python.org/pypi}{libraries}, written by an active \href{https://www.python.org/community/}{community}  
 	\item<5-> Python can ``glue" together functions written in C/C++ and Fortran to speed things up (we can also call R and MATLAB functions)
@@ -193,13 +200,12 @@ The TIOBE index is a measure of the popularity of programming languages:
 
 \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
         \item<1-> Python is becoming the \emph{de facto} standard for exploratory and interactive scientific research\\
-	\item[]<1-> \textbf{BUT}
-	\item<2-> Python is no programming silver bullet
+	\item<2-> But, python is no programming silver bullet!!
 	\item<3-> Your application will dictate the tool (and a mixture of more than one language is ok). For example:\\
 	\begin{itemize}\addtolength{\itemsep}{0.8\baselineskip}
-		\item<4-> MATLAB excels at interfacing with hardware, e.g generating \href{https://uk.mathworks.com/products/hdl-coder.html}{hardware description language (HDL) code} to configure an integrated circuit board or connecting to a \href{https://uk.mathworks.com/products/daq.html}{data acquisition card}
-		\item<5-> R is great for data wrangling and visualisation, and statistical modelling
-        \item<6-> C achieves the fastest runtimes, at the expense of a long development time
+            \item<4-> \href{https://jsommers.github.io/cbook/index.html}{C} and its descendant \href{https://www.stroustrup.com/C++.html}{C++} excel at heavy-duty applications with fast runtimes (but long development times): simulations with lots of calculations, operating systems, web browsers, word processors, ...
+            \item<5-> \href{https://uk.mathworks.com/help/matlab/}{MATLAB} excels at interfacing with hardware, e.g generating \href{https://uk.mathworks.com/products/hdl-coder.html}{hardware description language (HDL) code} to configure an integrated circuit board or connecting to a \href{https://uk.mathworks.com/products/daq.html}{data acquisition card}. Caveat is that MATLAB costs \pounds \pounds \pounds
+            \item<6-> R excels at data selection, visualisation and statistical modelling (but Python libraries are catching up: \href{https://pandas.pydata.org/docs/user_guide/index.html}{\texttt{pandas}}, \href{https://matplotlib.org/}{\texttt{matplotlib}} and \href{https://www.statsmodels.org/stable/index.html}{\texttt{statsmodels}})
 	\end{itemize}
 \end{itemize}
 
@@ -212,23 +218,29 @@ The TIOBE index is a measure of the popularity of programming languages:
     \begin{itemize}
         \item Python has a simple syntax and is widely used; ideal language for beginners
             \pause
-        \item Development time is much quicker than for compiled languages like C or Java
+        \item High quality error reporting and debugging tools (compare R/Perl/bash)
             \pause
-        \item Broad uptake: Python (and R) have replaced Perl as the key programming language in Bioinformatics
+        \item Development of applications quicker than for compiled languages like C or Java
             \pause
-        \item major GIS applications like ArcGIS use Python as their main scripting language
+        \item Python (and R) have replaced Perl as the key bioinformatics language
+            \pause
+        \item GIS applications like ArcGIS use Python as their main scripting language
+            \pause
         \item Language of choice for machine learning (PyTorch, scikit, TensorFlow)
-            \pause
     \end{itemize}
 \end{frame}
 
 \frame{\frametitle{Python version 2 vs 3}
     \begin{itemize}
-        \item Many systems (e.g., Mac OS X) still use Python 2 as the default
+        \item Some systems (Mac) still use Python 2 as the default  
+            \pause
+        \item Python 2 is a legacy version and is now largely replaced by Python 3
+            \pause
         \item Python 3 differs in \href{https://sebastianraschka.com/Articles/2014\_python\_2\_3\_key\_diff.html}{various ways} from Python 2
+            \pause
         \item Often, Python 3 code cannot be run using a Python 2 interpreter and vice versa
-        \item Python 2 is a legacy version and will ultimately be replaced by Python 3
-        \item \textbf{Current course will focus on Python 3}
+            \pause
+        \item \textbf{We will only focus on Python 3}
     \end{itemize}
 }
 
@@ -236,10 +248,12 @@ The TIOBE index is a measure of the popularity of programming languages:
 Various distributions of Python available:
     \begin{itemize}
             \pause
-        \item Official version from \href{https://python.org}{python.org} 
+        \item Download official distribution straight from \href{https://python.org}{python.org} 
+            \pause
+        \item On Mac/Linux, official distribution available through package managers like \texttt{apt-get}, \texttt{yum} or \href{https://installpython3.com/mac/}{homebrew}
             \begin{itemize}
-                \item Caveat: libraries and other tools need to be installed separately via \texttt{pip} (Python's package manager)
-        \end{itemize}
+                \item Official distribution requires libraries and IDEs to be installed separately via \href{https://pip.pypa.io/en/stable/}{\texttt{pip} (Python's package manager)}
+            \end{itemize}
             \pause
         \item \href{https://www.enthought.com/product/canopy/}{Enthought Canopy}: Python, libraries \& tools in single installer
             \pause
@@ -248,8 +262,10 @@ Various distributions of Python available:
 \includegraphics[width=0.3\textwidth]{AnacondaLogo.png}
             \end{center}
             \pause
+        \item Stick to one distribution, otherwise python will \href{https://xkcd.com/1987/}{mix up libraries}
     \end{itemize}
 }
+
 
 
 \begin{frame}[fragile]
@@ -265,6 +281,7 @@ Various distributions of Python available:
 \frametitle{Executing Python code: Spyder IDE}
 \begin{itemize}\addtolength{\itemsep}{.7\baselineskip}
 	\item Spyder is an integrated development environment (IDE) for scientific computing, akin to \href{https://www.rstudio.com/}{RStudio} and \href{https://uk.mathworks.com/products/matlab.html}{MATLAB} 
+        \pause
 	\item One place to write, execute and debug code, and explore variables
 \end{itemize}
 
@@ -320,8 +337,10 @@ chmod +x my_script.py
 This Python script prints something.
 \end{lstlisting}
 \end{itemize}
-
 \end{frame}
+
+
+
 
 \end{document}
 
